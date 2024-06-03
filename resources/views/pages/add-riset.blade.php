@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Add Riset')
+@section('title', 'Tambah Riset')
 
 @push('style')
     <!-- CSS Libraries -->
