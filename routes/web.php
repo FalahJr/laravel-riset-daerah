@@ -9,6 +9,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RisetController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentQuizController;
+use App\Http\Controllers\TopikRisetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -83,6 +84,7 @@ Route::middleware(['authAdmin'])->prefix('admin')->group(function () {
 
     // Route::get('/materi', [MateriController::class, 'index']);
     Route::resource('/riset', RisetController::class);
+    Route::resource('/topik-riset', TopikRisetController::class);
     // Route::get('/riset', [RisetController::class, 'index']);
 
     // Route::get('riset/add', [RisetController::class, 'create'])->name("add-riset");
