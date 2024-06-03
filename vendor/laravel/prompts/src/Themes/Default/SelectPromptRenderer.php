@@ -3,9 +3,8 @@
 namespace Laravel\Prompts\Themes\Default;
 
 use Laravel\Prompts\SelectPrompt;
-use Laravel\Prompts\Themes\Contracts\Scrolling;
 
-class SelectPromptRenderer extends Renderer implements Scrolling
+class SelectPromptRenderer extends Renderer
 {
     use Concerns\DrawsBoxes;
     use Concerns\DrawsScrollbars;
@@ -21,7 +20,7 @@ class SelectPromptRenderer extends Renderer implements Scrolling
             'submit' => $this
                 ->box(
                     $this->dim($this->truncate($prompt->label, $prompt->terminal()->cols() - 6)),
-                    $this->truncate($prompt->label(), $maxWidth),
+                    $this->truncate($this->format($prompt->label()), $maxWidth),
                 ),
 
             'cancel' => $this
@@ -30,7 +29,7 @@ class SelectPromptRenderer extends Renderer implements Scrolling
                     $this->renderOptions($prompt),
                     color: 'red',
                 )
-                ->error($prompt->cancelMessage),
+                ->error('Cancelled.'),
 
             'error' => $this
                 ->box(
@@ -58,37 +57,26 @@ class SelectPromptRenderer extends Renderer implements Scrolling
      */
     protected function renderOptions(SelectPrompt $prompt): string
     {
-        return $this->scrollbar(
-            collect($prompt->visible())
-                ->map(fn ($label) => $this->truncate($label, $prompt->terminal()->cols() - 12))
-                ->map(function ($label, $key) use ($prompt) {
-                    $index = array_search($key, array_keys($prompt->options));
-
+        return $this->scroll(
+            collect($prompt->options)
+                ->values()
+                ->map(fn ($label) => $this->truncate($this->format($label), $prompt->terminal()->cols() - 12))
+                ->map(function ($label, $i) use ($prompt) {
                     if ($prompt->state === 'cancel') {
-                        return $this->dim($prompt->highlighted === $index
+                        return $this->dim($prompt->highlighted === $i
                             ? "› ● {$this->strikethrough($label)}  "
                             : "  ○ {$this->strikethrough($label)}  "
                         );
                     }
 
-                    return $prompt->highlighted === $index
+                    return $prompt->highlighted === $i
                         ? "{$this->cyan('›')} {$this->cyan('●')} {$label}  "
                         : "  {$this->dim('○')} {$this->dim($label)}  ";
-                })
-                ->values(),
-            $prompt->firstVisible,
-            $prompt->scroll,
-            count($prompt->options),
+                }),
+            $prompt->highlighted,
+            min($prompt->scroll, $prompt->terminal()->lines() - 5),
             min($this->longest($prompt->options, padding: 6), $prompt->terminal()->cols() - 6),
             $prompt->state === 'cancel' ? 'dim' : 'cyan'
         )->implode(PHP_EOL);
-    }
-
-    /**
-     * The number of lines to reserve outside of the scrollable area.
-     */
-    public function reservedLines(): int
-    {
-        return 5;
     }
 }

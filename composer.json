@@ -13,7 +13,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
-        "laravel/pint": "^1.0",
+        "krlove/eloquent-model-generator": "^2.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
@@ -48,9 +48,6 @@
         ]
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "10.x-dev"
-        },
         "laravel": {
             "dont-discover": []
         }
@@ -58,10 +55,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true
-        }
+        "sort-packages": true
     },
     "minimum-stability": "stable",
     "prefer-stable": true

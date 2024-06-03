@@ -3,11 +3,9 @@
 namespace Laravel\Prompts;
 
 use Closure;
-use Laravel\Prompts\Exceptions\FormRevertedException;
 use Laravel\Prompts\Output\ConsoleOutput;
 use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
-use Throwable;
 
 abstract class Prompt
 {
@@ -17,7 +15,6 @@ abstract class Prompt
     use Concerns\Events;
     use Concerns\FakesInputOutput;
     use Concerns\Fallback;
-    use Concerns\Interactivity;
     use Concerns\Themes;
 
     /**
@@ -29,11 +26,6 @@ abstract class Prompt
      * The error message from the validator.
      */
     public string $error = '';
-
-    /**
-     * The cancel message displayed when this prompt is cancelled.
-     */
-    public string $cancelMessage = 'Cancelled.';
 
     /**
      * The previously rendered frame.
@@ -51,29 +43,14 @@ abstract class Prompt
     public bool|string $required;
 
     /**
-     * The validator callback or rules.
+     * The validator callback.
      */
-    public mixed $validate;
-
-    /**
-     * The cancellation callback.
-     */
-    protected static ?Closure $cancelUsing;
+    protected ?Closure $validate;
 
     /**
      * Indicates if the prompt has been validated.
      */
     protected bool $validated = false;
-
-    /**
-     * The custom validation callback.
-     */
-    protected static ?Closure $validateUsing;
-
-    /**
-     * The revert handler from the StepBuilder.
-     */
-    protected static ?Closure $revertUsing = null;
 
     /**
      * The output instance.
@@ -95,65 +72,39 @@ abstract class Prompt
      */
     public function prompt(): mixed
     {
-        try {
-            $this->capturePreviousNewLines();
+        $this->capturePreviousNewLines();
 
-            if (static::shouldFallback()) {
-                return $this->fallback();
-            }
+        if (static::shouldFallback()) {
+            return $this->fallback();
+        }
 
-            static::$interactive ??= stream_isatty(STDIN);
+        $this->checkEnvironment();
 
-            if (! static::$interactive) {
-                return $this->default();
-            }
+        register_shutdown_function(function () {
+            $this->restoreCursor();
+            static::terminal()->restoreTty();
+        });
 
-            $this->checkEnvironment();
+        static::terminal()->setTty('-icanon -isig -echo');
+        $this->hideCursor();
+        $this->render();
 
-            try {
-                static::terminal()->setTty('-icanon -isig -echo');
-            } catch (Throwable $e) {
-                static::output()->writeln("<comment>{$e->getMessage()}</comment>");
-                static::fallbackWhen(true);
+        while (($key = static::terminal()->read()) !== null) {
+            $continue = $this->handleKeyPress($key);
 
-                return $this->fallback();
-            }
-
-            $this->hideCursor();
             $this->render();
 
-            while (($key = static::terminal()->read()) !== null) {
-                $continue = $this->handleKeyPress($key);
+            if ($continue === false || $key === Key::CTRL_C) {
+                $this->restoreCursor();
+                static::terminal()->restoreTty();
 
-                $this->render();
-
-                if ($continue === false || $key === Key::CTRL_C) {
-                    if ($key === Key::CTRL_C) {
-                        if (isset(static::$cancelUsing)) {
-                            return (static::$cancelUsing)();
-                        } else {
-                            static::terminal()->exit();
-                        }
-                    }
-
-                    if ($key === Key::CTRL_U && self::$revertUsing) {
-                        throw new FormRevertedException();
-                    }
-
-                    return $this->value();
+                if ($key === Key::CTRL_C) {
+                    static::terminal()->exit();
                 }
-            }
-        } finally {
-            $this->clearListeners();
-        }
-    }
 
-    /**
-     * Register a callback to be invoked when a user cancels a prompt.
-     */
-    public static function cancelUsing(?Closure $callback): void
-    {
-        static::$cancelUsing = $callback;
+                return $this->value();
+            }
+        }
     }
 
     /**
@@ -211,40 +162,10 @@ abstract class Prompt
     }
 
     /**
-     * Set the custom validation callback.
-     */
-    public static function validateUsing(Closure $callback): void
-    {
-        static::$validateUsing = $callback;
-    }
-
-    /**
-     * Revert the prompt using the given callback.
-     *
-     * @internal
-     */
-    public static function revertUsing(Closure $callback): void
-    {
-        static::$revertUsing = $callback;
-    }
-
-    /**
-     * Clear any previous revert callback.
-     *
-     * @internal
-     */
-    public static function preventReverting(): void
-    {
-        static::$revertUsing = null;
-    }
-
-    /**
      * Render the prompt.
      */
     protected function render(): void
     {
-        $this->terminal()->initDimensions();
-
         $frame = $this->renderTheme();
 
         if ($frame === $this->prevFrame) {
@@ -260,14 +181,35 @@ abstract class Prompt
             return;
         }
 
-        $terminalHeight = $this->terminal()->lines();
-        $previousFrameHeight = count(explode(PHP_EOL, $this->prevFrame));
-        $renderableLines = array_slice(explode(PHP_EOL, $frame), abs(min(0, $terminalHeight - $previousFrameHeight)));
+        $this->resetCursorPosition();
 
-        $this->moveCursorToColumn(1);
-        $this->moveCursorUp(min($terminalHeight, $previousFrameHeight) - 1);
-        $this->eraseDown();
-        $this->output()->write(implode(PHP_EOL, $renderableLines));
+        // Ensure that the full frame is buffered so subsequent output can see how many trailing newlines were written.
+        if ($this->state === 'submit') {
+            $this->eraseDown();
+            static::output()->write($frame);
+
+            $this->prevFrame = '';
+
+            return;
+        }
+
+        $diff = $this->diffLines($this->prevFrame, $frame);
+
+        if (count($diff) === 1) { // Update the single line that changed.
+            $diffLine = $diff[0];
+            $this->moveCursor(0, $diffLine);
+            $this->eraseLines(1);
+            $lines = explode(PHP_EOL, $frame);
+            static::output()->write($lines[$diffLine]);
+            $this->moveCursor(0, count($lines) - $diffLine - 1);
+        } elseif (count($diff) > 1) { // Re-render everything past the first change
+            $diffLine = $diff[0];
+            $this->moveCursor(0, $diffLine);
+            $this->eraseDown();
+            $lines = explode(PHP_EOL, $frame);
+            $newLines = array_slice($lines, $diffLine);
+            static::output()->write(implode(PHP_EOL, $newLines));
+        }
 
         $this->prevFrame = $frame;
     }
@@ -285,6 +227,40 @@ abstract class Prompt
     }
 
     /**
+     * Reset the cursor position to the beginning of the previous frame.
+     */
+    private function resetCursorPosition(): void
+    {
+        $lines = count(explode(PHP_EOL, $this->prevFrame)) - 1;
+
+        $this->moveCursor(-999, $lines * -1);
+    }
+
+    /**
+     * Get the difference between two strings.
+     *
+     * @return array<int>
+     */
+    private function diffLines(string $a, string $b): array
+    {
+        if ($a === $b) {
+            return [];
+        }
+
+        $aLines = explode(PHP_EOL, $a);
+        $bLines = explode(PHP_EOL, $b);
+        $diff = [];
+
+        for ($i = 0; $i < max(count($aLines), count($bLines)); $i++) {
+            if (! isset($aLines[$i]) || ! isset($bLines[$i]) || $aLines[$i] !== $bLines[$i]) {
+                $diff[] = $i;
+            }
+        }
+
+        return $diff;
+    }
+
+    /**
      * Handle a key press and determine whether to continue.
      */
     private function handleKeyPress(string $key): bool
@@ -296,22 +272,6 @@ abstract class Prompt
         $this->emit('key', $key);
 
         if ($this->state === 'submit') {
-            return false;
-        }
-
-        if ($key === Key::CTRL_U) {
-            if (! self::$revertUsing) {
-                $this->state = 'error';
-                $this->error = 'This cannot be reverted.';
-
-                return true;
-            }
-
-            $this->state = 'cancel';
-            $this->cancelMessage = 'Reverted.';
-
-            call_user_func(self::$revertUsing);
-
             return false;
         }
 
@@ -335,39 +295,27 @@ abstract class Prompt
     {
         $this->validated = true;
 
-        if ($this->required !== false && $this->isInvalidWhenRequired($value)) {
+        if (($this->required ?? false) && ($value === '' || $value === [] || $value === false)) {
             $this->state = 'error';
-            $this->error = is_string($this->required) && strlen($this->required) > 0 ? $this->required : 'Required.';
+            $this->error = is_string($this->required) ? $this->required : 'Required.';
 
             return;
         }
 
-        if (! isset($this->validate) && ! isset(static::$validateUsing)) {
+        if (! isset($this->validate)) {
             return;
         }
 
-        $error = match (true) {
-            is_callable($this->validate) => ($this->validate)($value),
-            isset(static::$validateUsing) => (static::$validateUsing)($this),
-            default => throw new RuntimeException('The validation logic is missing.'),
-        };
+        $error = ($this->validate)($value);
 
         if (! is_string($error) && ! is_null($error)) {
-            throw new RuntimeException('The validator must return a string or null.');
+            throw new \RuntimeException('The validator must return a string or null.');
         }
 
         if (is_string($error) && strlen($error) > 0) {
             $this->state = 'error';
             $this->error = $error;
         }
-    }
-
-    /**
-     * Determine whether the given value is invalid when the prompt is required.
-     */
-    protected function isInvalidWhenRequired(mixed $value): bool
-    {
-        return $value === '' || $value === [] || $value === false || $value === null;
     }
 
     /**
@@ -378,15 +326,5 @@ abstract class Prompt
         if (PHP_OS_FAMILY === 'Windows') {
             throw new RuntimeException('Prompts is not currently supported on Windows. Please use WSL or configure a fallback.');
         }
-    }
-
-    /**
-     * Restore the cursor and terminal state.
-     */
-    public function __destruct()
-    {
-        $this->restoreCursor();
-
-        static::terminal()->restoreTty();
     }
 }

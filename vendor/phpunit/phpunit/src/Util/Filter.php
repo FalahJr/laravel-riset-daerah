@@ -28,7 +28,7 @@ final class Filter
     /**
      * @throws Exception
      */
-    public static function getFilteredStacktrace(Throwable $t, bool $unwrap = true): string
+    public static function getFilteredStacktrace(Throwable $t): string
     {
         $filteredStacktrace = '';
 
@@ -41,7 +41,7 @@ final class Filter
             $eFile  = $t->getFile();
             $eLine  = $t->getLine();
         } else {
-            if ($unwrap && $t->getPrevious()) {
+            if ($t->getPrevious()) {
                 $t = $t->getPrevious();
             }
 
@@ -89,10 +89,10 @@ final class Filter
             $script = '';
         }
 
-        return $fileIsNotPrefixed &&
-               $file !== $script &&
+        return is_file($file) &&
                self::fileIsExcluded($file, $excludeList) &&
-               is_file($file);
+               $fileIsNotPrefixed &&
+               $file !== $script;
     }
 
     private static function fileIsExcluded(string $file, ExcludeList $excludeList): bool
