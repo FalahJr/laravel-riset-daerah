@@ -40,12 +40,12 @@
                         <a class="nav-link" href="{{ url('teacher/home') }}"><i class="fas fa-th-large"></i>
                             <span>Dashboard</span></a>
                     </li>
-                    <li class="{{ Request::is('riset') ? 'active' : '' }}">
+                    <li class="{{ Request::is('admin/riset') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ url('admin/riset') }}"><i class="fas fa-home"></i>
                             <span>Managemen Riset</span></a>
                     </li>
-                    <li class="{{ Request::is('quizzes/score') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('admin/quiz') }}"><i class="fas fa-file-pen"></i>
+                    <li class="{{ Request::is('admin/topik-riset') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('admin/topik-riset') }}"><i class="fas fa-file-pen"></i>
                             <span>Managemen Topik Riset</span></a>
                     </li>
 
