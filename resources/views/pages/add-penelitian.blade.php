@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Add Materi')
+@section('title', 'Tambah Penelitian')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -14,11 +14,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Edit Materi</h1>
+                <h1>Tambah Penelitian</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Materi</a></div>
-                    <div class="breadcrumb-item">Edit Materi</div>
+                    <div class="breadcrumb-item"><a href="#"> Penelitian</a></div>
+                    <div class="breadcrumb-item">Tambah Penelitian</div>
                 </div>
             </div>
 
@@ -29,39 +29,55 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Form Edit Materi</h4>
+                                <h4>Form Tambah Penelitian</h4>
                             </div>
-                            <form class="form" action="/teacher/materi/{{ Request::segment(3) }}" method="post"
+                            <form class="form" action="/masyarakat/penelitian" method="post"
                                 enctype="multipart/form-data">
                                 @csrf
-                                @method('PUT')
                                 <div class="card-body">
                                     <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Judul</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <input type="text" class="form-control" name="judul"
-                                                value="{{ $materi->judul }}">
+                                            <input type="text" class="form-control" name="judul_penelitian" required>
                                         </div>
                                     </div>
 
+
                                     <div class="form-group row mb-4">
-                                        <label
-                                            class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Description</label>
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Identifikasi
+                                            Masalah</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <textarea class="summernote" name="deskripsi"> {{ $materi->deskripsi }}</textarea>
+                                            <textarea class="w-100" name="identifikasi_masalah" required></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-4">
-                                        <label
-                                            class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Thumbnail</label>
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tujuan
+                                            Penelitian</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <div id="image-preview" class="image-preview">
-                                                <label for="image-upload" id="image-label">Choose File</label>
-                                                <input type="file" name="gambar" id="image-upload"
-                                                    value="{{ $materi->gambar }}" />
-                                            </div>
+                                            <textarea class="w-100" name="tujuan" required></textarea>
                                         </div>
                                     </div>
+                                    <div class="form-group row mb-4">
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">File</label>
+                                        <div class="col-sm-12 col-md-7">
+
+                                            <input type="file" class="form-control" name="upload_file" required>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="form-group row">
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status
+                                            Publikasi</label>
+                                        <div class="col-sm-12 col-md-7">
+
+                                            <select class="form-control select2" name="is_publish" required>
+                                                <option value="" disabled selected>Pilih Status</option>
+
+                                                <option value="Y">Publikasi</option>
+                                                <option value="N">Privasi</option>
+                                            </select>
+                                        </div>
+                                    </div> --}}
+
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                         <div class="col-sm-12 col-md-7">
@@ -83,13 +99,16 @@
 @push('scripts')
     <!-- JS Libraies -->
     <script src="{{ asset('library/summernote/dist/summernote-bs4.js') }}"></script>
+    {{-- <script src="{{ asset('library/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script> --}}
+
     <script src="{{ asset('library/codemirror/lib/codemirror.js') }}"></script>
     <script src="{{ asset('library/codemirror/mode/javascript/javascript.js') }}"></script>
     <script src="{{ asset('library/selectric/public/jquery.selectric.min.js') }}"></script>
-    <script src="{{ asset('library/upload-preview/upload-preview.js') }}"></script>
+
+    {{-- <script src="{{ asset('library/upload-preview/upload-preview.js') }}"></script> --}}
 
     <!-- Page Specific JS File -->
-    <script src="{{ asset('js/page/features-post-create.js') }}"></script>
+    {{-- <script src="{{ asset('js/page/features-post-create.js') }}"></script> --}}
 
     <!-- Page Specific JS File -->
 @endpush

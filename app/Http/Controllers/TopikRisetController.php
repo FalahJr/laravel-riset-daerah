@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Session;
 use App\models\Admin;
 use App\Models\Materi;
 use App\Models\Notifikasi;
-use App\Models\Riset;
 use App\Models\TopikRiset;
 use App\Models\User;
 use Carbon\Carbon;
@@ -30,42 +29,7 @@ class TopikRisetController extends Controller
         return view('pages.manage-topik-riset', compact('data'));
     }
 
-    public function indexMateriMurid()
-    {
-        $data = Materi::join('user', 'user.id', '=', 'materi.user_id')
-            ->select('materi.*', 'user.nama_lengkap')
-            ->orderBy('id', 'desc')
-            ->get();
 
-
-
-        // dd($data);
-        return view('pages.materi', compact('data'));
-    }
-
-    public function detailMateri(Request $request)
-    {
-        $materi = Materi::where([
-            'id' => $request->segment(3)
-        ])->first();
-
-        $activityLog = ActivityLog::create([
-            'user_id' => Session('user')['id'],
-            'materi_id' => $request->segment(3),
-            'start_time' => Carbon::now('Asia/Jakarta'),
-        ]);
-
-        // $activityLogs = ActivityLog::
-
-        //     // ->join('user', 'user.id', '=', 'activity_log.user_id')
-        //     ->join('materi', 'materi.id', '=', 'activity_log.materi_id')
-        //     ->
-        //     ->select('activity_log.*', 'materi.judul')
-        //     ->first();
-
-        // dd($activityLogs);
-        return view('pages.detail-materi', compact('materi', 'activityLog'));
-    }
 
 
 
@@ -74,28 +38,29 @@ class TopikRisetController extends Controller
         return view('pages.add-topik-riset');
     }
 
+
+
+
     public function store(Request $request)
     {
         // dd($request->all());
         if ($request) {
-            if ($request->hasFile('upload_file')) {
+            if ($request->hasFile('file')) {
 
                 // $getPegawaiBaru = Pegawai::orderBy('created_at', 'desc')->first();
                 // $getKonfigCuti = Konfig_cuti::where('tahun',(new \DateTime())->format('Y'))->first();
                 // $request->file('image')->move('img/materi', $request->file('gambar')->getClientOriginalName());
-                $fileName = $request->file('upload_file')->getClientOriginalName();
-                $request->file('upload_file')->move('file_upload/topik-riset', $fileName);
+                $fileName = $request->file('file')->getClientOriginalName();
+                $request->file('file')->move('file_upload/topik-riset', $fileName);
 
-                $topik_riset = new TopikRiset;
-                $topik_riset->judul = $request->judul;
-                $topik_riset->tahun = $request->tahun;
-                $topik_riset->no_telepon = $request->no_telepon;
-                $topik_riset->abstrak = $request->abstrak;
-                $topik_riset->is_publish = $request->is_publish;
-                $topik_riset->upload_file = $fileName;
-                $topik_riset->created_at = Carbon::now();
-                $topik_riset->updated_at = Carbon::now();
-                $topik_riset->save();
+                $riset = new TopikRiset;
+                $riset->judul = $request->judul;
+                $riset->no_dokumen = $request->no_dokumen;
+                $riset->nama = $request->nama;
+                $riset->file = $fileName;
+                $riset->created_at = Carbon::now();
+                $riset->updated_at = Carbon::now();
+                $riset->save();
 
 
 
@@ -125,29 +90,27 @@ class TopikRisetController extends Controller
     {
         // dd($request->all());
 
-        $topik_riset = TopikRiset::where([
+        $riset = TopikRiset::where([
             'id' => $request->segment(3)
         ])->first();
         // dd($request->all());
-        $topik_riset->judul = $request->judul;
-        $topik_riset->tahun = $request->tahun;
-        $topik_riset->no_telepon = $request->no_telepon;
-        $topik_riset->abstrak = $request->abstrak;
-        $topik_riset->is_publish = $request->is_publish;
-        $topik_riset->created_at = Carbon::now();
-        $topik_riset->updated_at = Carbon::now();
+        $riset->judul = $request->judul;
+        $riset->no_dokumen = $request->no_dokumen;
+        $riset->nama = $request->nama;
+        $riset->created_at = Carbon::now();
+        $riset->updated_at = Carbon::now();
         // $karyawan->image=$request->image;
 
-        // if ($topik_riset->save()) {
-        if ($request->hasFile('upload_file')) {
-            $fileName = $request->file('upload_file')->getClientOriginalName();
-            $request->file('upload_file')->move('file_upload/topik-riset', $fileName);
+        // if ($riset->save()) {
+        if ($request->hasFile('file')) {
+            $fileName = $request->file('file')->getClientOriginalName();
+            $request->file('file')->move('file_upload/topik-riset', $fileName);
 
-            $topik_riset->upload_file = $fileName;
-            $topik_riset->save();
+            $riset->gambar = $fileName;
+            $riset->save();
             return redirect('/admin/topik-riset');
         } else {
-            $topik_riset->save();
+            $riset->save();
             return redirect('/admin/topik-riset');
         }
     }

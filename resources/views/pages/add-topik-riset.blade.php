@@ -41,48 +41,32 @@
                                         </div>
                                     </div>
                                     <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tahun</label>
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">No.
+                                            Dokumen</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <input type="number" class="form-control" name="tahun" required
-                                                min="0">
+                                            <input type="text" class="form-control" name="no_dokumen" required>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">No
-                                            Telepon</label>
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <input type="number" class="form-control" name="no_telepon" required
-                                                min="0">
+                                            <input type="text" class="form-control" name="nama" required>
                                         </div>
                                     </div>
-
-                                    <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Abstrak</label>
+                                    {{-- <div class="form-group row mb-4">
+                                        <label
+                                            class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Description</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <textarea class="summernote" name="abstrak" required></textarea>
+                                            <textarea class="summernote" name="deskripsi"></textarea>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">File</label>
                                         <div class="col-sm-12 col-md-7">
 
-                                            <input type="file" class="form-control" name="upload_file" required>
+                                            <input type="file" class="form-control" name="file" required>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status
-                                            Publikasi</label>
-                                        <div class="col-sm-12 col-md-7">
-
-                                            <select class="form-control select2" name="is_publish" required>
-                                                <option value="" disabled selected>Pilih Status</option>
-
-                                                <option value="Y">Publikasi</option>
-                                                <option value="N">Privasi</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                         <div class="col-sm-12 col-md-7">
@@ -113,7 +97,7 @@
     {{-- <script src="{{ asset('library/upload-preview/upload-preview.js') }}"></script> --}}
 
     <!-- Page Specific JS File -->
-    {{-- <script src="{{ asset('js/page/features-post-create.js') }}"></script> --}}
+    <script src="{{ asset('js/page/features-post-create.js') }}"></script>
 
     <!-- Page Specific JS File -->
 @endpush

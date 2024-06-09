@@ -45,55 +45,37 @@
                                         </div>
                                     </div>
                                     <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tahun</label>
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">No.
+                                            Dokumen</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <input type="number" class="form-control" name="tahun" required
-                                                min="0" value="{{ $topik_riset->tahun }}">
+                                            <input type="text" class="form-control" name="no_dokumen" required
+                                                value="{{ $topik_riset->no_dokumen }}">
                                         </div>
                                     </div>
                                     <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">No
-                                            Telepon</label>
+                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <input type="number" class="form-control" name="no_telepon" required
-                                                min="0" value="{{ $topik_riset->no_telepon }}">
+                                            <input type="text" class="form-control" name="nama" required
+                                                value="{{ $topik_riset->nama }}">
                                         </div>
                                     </div>
-
-                                    <div class="form-group row mb-4">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Abstrak</label>
+                                    {{-- <div class="form-group row mb-4">
+                                        <label
+                                            class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Description</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <textarea class="summernote" name="abstrak" required>{{ $topik_riset->abstrak }}</textarea>
+                                            <textarea class="summernote" name="deskripsi"></textarea>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">File</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <a href="{{ asset('file_upload/topik-riset/' . $topik_riset->upload_file) }}"
+                                            <a href="{{ asset('file_upload/topik-riset/' . $topik_riset->file) }}"
                                                 class="btn btn-primary btn-md mb-3" target="_blank">
                                                 View File
                                             </a>
-                                            <input type="file" class="form-control" name="upload_file">
+                                            <input type="file" class="form-control" name="file">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status
-                                            Publikasi</label>
-                                        <div class="col-sm-12 col-md-7">
-
-                                            <select class="form-control select2" name="is_publish" required>
-                                                <option value="" disabled selected>Pilih Status</option>
-
-                                                <option value="Y"
-                                                    {{ $topik_riset->is_publish == 'Y' ? 'selected' : '' }}>Publikasi
-                                                </option>
-                                                <option value="N"
-                                                    {{ $topik_riset->is_publish == 'N' ? 'selected' : '' }}>Privasi
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                                         <div class="col-sm-12 col-md-7">
@@ -124,7 +106,7 @@
     {{-- <script src="{{ asset('library/upload-preview/upload-preview.js') }}"></script> --}}
 
     <!-- Page Specific JS File -->
-    {{-- <script src="{{ asset('js/page/features-post-create.js') }}"></script> --}}
+    <script src="{{ asset('js/page/features-post-create.js') }}"></script>
 
     <!-- Page Specific JS File -->
 @endpush

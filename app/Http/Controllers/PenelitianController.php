@@ -11,9 +11,10 @@ use App\Models\Materi;
 use App\Models\Notifikasi;
 use App\Models\Riset;
 use App\Models\User;
+use App\Models\UsulanPenelitian;
 use Carbon\Carbon;
 
-class RisetController extends Controller
+class PenelitianController extends Controller
 {
 
     public function index()
@@ -22,20 +23,20 @@ class RisetController extends Controller
         //     ->select('materi.*', 'user.nama_lengkap')
         //     ->get();
 
-        $data = Riset::all();
+        $data = UsulanPenelitian::all();
 
 
         // dd($data);
-        return view('pages.manage-riset', compact('data'));
+        return view('pages.manage-penelitian', compact('data'));
     }
 
-    public function getListRiset()
+    public function getListPenelitian()
     {
         // $data = Riset::join('user', 'user.id', '=', 'materi.user_id')
         //     ->select('materi.*', 'user.nama_lengkap')
         //     ->get();
 
-        $data = Riset::all();
+        $data = UsulanPenelitian::all();
 
 
         // dd($data);
@@ -43,11 +44,9 @@ class RisetController extends Controller
     }
 
 
-
-
     public function create()
     {
-        return view('pages.add-riset');
+        return view('pages.add-penelitian');
     }
 
     public function store(Request $request)
@@ -60,15 +59,16 @@ class RisetController extends Controller
                 // $getKonfigCuti = Konfig_cuti::where('tahun',(new \DateTime())->format('Y'))->first();
                 // $request->file('image')->move('img/materi', $request->file('gambar')->getClientOriginalName());
                 $fileName = $request->file('upload_file')->getClientOriginalName();
-                $request->file('upload_file')->move('file_upload/riset', $fileName);
+                $request->file('upload_file')->move('file_upload/penelitian', $fileName);
 
-                $topik_riset = new Riset;
-                $topik_riset->judul = $request->judul;
-                $topik_riset->tahun = $request->tahun;
-                $topik_riset->no_telepon = $request->no_telepon;
-                $topik_riset->abstrak = $request->abstrak;
-                $topik_riset->is_publish = $request->is_publish;
-                $topik_riset->upload_file = $fileName;
+                $topik_riset = new UsulanPenelitian;
+                $topik_riset->user_id = Session('user')['id'];
+                $topik_riset->judul_penelitian = $request->judul_penelitian;
+                $topik_riset->identifikasi_masalah = $request->identifikasi_masalah;
+                $topik_riset->tujuan = $request->tujuan;
+                $topik_riset->file = $fileName;
+                $topik_riset->status = "Sedang Diproses";
+
                 $topik_riset->created_at = Carbon::now();
                 $topik_riset->updated_at = Carbon::now();
                 $topik_riset->save();
@@ -77,11 +77,11 @@ class RisetController extends Controller
 
 
 
-                return redirect('/admin/riset');
+                return redirect('/masyarakat/penelitian');
             }
             // ->with('success', 'Berhasil membuat Materi');
         } else {
-            return redirect('/admin/riset');
+            return redirect('/masyarakat/penelitian');
             // ->with('failed', 'Gagal membuat Materi');
         }
     }
@@ -121,23 +121,23 @@ class RisetController extends Controller
 
             $topik_riset->upload_file = $fileName;
             $topik_riset->save();
-            return redirect('/admin/riset');
+            return redirect('/masyarakat/penelitian');
         } else {
             $topik_riset->save();
-            return redirect('/admin/riset');
+            return redirect('/masyarakat/penelitian');
         }
     }
 
     public function destroy(Request $request, $id)
     {
-        $riset = Riset::findOrFail($id);
+        $riset = UsulanPenelitian::findOrFail($id);
 
 
 
         if ($riset->delete()) {
-            return redirect('/admin/riset');
+            return redirect('/masyarakat/penelitian');
         } else {
-            return redirect('/admin/riset');
+            return redirect('/masyarakat/penelitian');
         }
     }
 }

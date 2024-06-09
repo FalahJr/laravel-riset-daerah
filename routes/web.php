@@ -5,6 +5,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MateriController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PenelitianController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\RisetController;
 use App\Http\Controllers\StudentController;
@@ -24,10 +26,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::redirect('/', '/login');
-// Route::redirect('/', '/welcome');
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PublicController::class, 'index']);
+Route::get('/riset', [PublicController::class, 'riset']);
+Route::get('/topik-riset', [PublicController::class, 'topik_riset']);
+Route::get('/usulan-penelitian', [PublicController::class, 'usulan_penelitian']);
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
 // Dashboard
@@ -58,24 +63,7 @@ Route::middleware(['authMasyarakat'])->prefix('masyarakat')->group(function () {
     //     return view('pages.materi', ['type_menu' => 'components']);
     // });
     Route::get('/home', [DashboardController::class, 'indexDashboardMurid'])->name('home');
-    Route::get('/materi', [MateriController::class, 'indexMateriMurid']);
-    Route::get('/detail-materi/{id}', [MateriController::class, 'detailMateri']);
-    Route::post('/materi/log-end-time', [MateriController::class, 'logEndTime'])->name('materi.logEndTime');
-    Route::get('/notification', [NotificationController::class, 'index']);
-
-    // Quiz
-
-    Route::get('quizzes', [StudentQuizController::class, 'index']);
-
-    Route::get('quizzes/{id}', [StudentQuizController::class, 'showQuiz'])->name('student.quizzes.show');
-    Route::post('quizzes/{id}', [StudentQuizController::class, 'submitQuiz'])->name('student.quizzes.submit');
-    Route::get('quizzes/{id}/result/{attempt_id}', [StudentQuizController::class, 'showResult'])->name('student.quizzes.result');
-    Route::get('quizzes/{user_id}/score/{quiz_id}', [StudentQuizController::class, 'showResultByUser'])->name('student.quizzes.resultByUser');
-
-
-    Route::get('assignment', [AssignmentController::class, 'indexAssignmentMurid']);
-    Route::get('assignment/submission/{id}', [AssignmentController::class, 'edit']);
-    Route::post('assignment/submission/{id}/submit', [AssignmentController::class, 'submitSubmission'])->name('student.submission-assignment');
+    Route::resource('/penelitian', PenelitianController::class);
 });
 
 Route::middleware(['authAdmin'])->prefix('admin')->group(function () {
@@ -88,28 +76,6 @@ Route::middleware(['authAdmin'])->prefix('admin')->group(function () {
     // Route::get('/riset', [RisetController::class, 'index']);
 
     // Route::get('riset/add', [RisetController::class, 'create'])->name("add-riset");
-    Route::get('/notification', [NotificationController::class, 'index']);
-
-    // Quiz
-    Route::resource('quizzes', QuizController::class);
-    Route::get('quizzes/edit/{id}', [QuizController::class, 'edit']);
-    Route::put('quizzes/update/{id}', [QuizController::class, 'update']);
-    Route::get('quizzes/{quiz}/questions/create', [QuizController::class, 'createQuestion'])->name('questions.create');
-    Route::post('quizzes/{quiz}/questions', [QuizController::class, 'storeQuestion'])->name('questions.store');
-    Route::get('quizzes/{quiz}/questions/{question}/edit', [QuizController::class, 'editQuestion'])->name('questions.edit');
-    Route::put('quizzes/{quiz}/questions/{question}', [QuizController::class, 'updateQuestion'])->name('questions.update');
-    Route::delete('quizzes/{quiz}/questions/{question}', [QuizController::class, 'destroyQuestion'])->name('questions.destroy');
-
-    Route::resource('/manage-student', StudentController::class);
-    Route::get('/add-student', [StudentController::class, 'create'])->name("add-student");
-
-    Route::get('quiz', [StudentQuizController::class, 'index']);
-    Route::get('quiz/score/{quiz_id}', [StudentQuizController::class, 'showAllResultByGuru'])->name('teacher.quizzes.showAllResultByGuru');
-
-    Route::resource('assignment', AssignmentController::class);
-    Route::get('/add-assignment', [AssignmentController::class, 'create'])->name("add-assignment");
-    Route::get('assignments/submission/', [AssignmentController::class, 'indexAssignmentMurid']);
-    Route::get('assignments/submission/{id}', [AssignmentController::class, 'viewSubmissions']);
 
 
 

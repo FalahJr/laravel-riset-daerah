@@ -23,15 +23,11 @@ class DashboardController extends Controller
 
     public function indexDashboardMurid()
     {
-        $newest_notifikasi = Notifikasi::where('role', '=', 'Murid')->orderBy('id', 'desc')->first();
-        $get_new_materi = Materi::latest()->first();
-        $get_new_quiz = Quizzes::where("materi_id", "=", $get_new_materi->id)->first();
-        if ($get_new_quiz !== null) {
-            $list_leaderboard = QuizAttempts::join('user', 'user.id',  '=', 'quiz_attempts.user_id')->where("quizzes_id", "=", $get_new_quiz->id)->select('quiz_attempts.*', 'user.nama_lengkap')->get();
-        } else {
-            $get_newest_quiz = Quizzes::orderBy('id', 'desc')->first();
-            $list_leaderboard = QuizAttempts::join('user', 'user.id',  '=', 'quiz_attempts.user_id')->where("quizzes_id", "=", $get_newest_quiz->id)->select('quiz_attempts.*', 'user.nama_lengkap')->get();
-        }
+        $newest_notifikasi = [];
+        $get_new_materi = [];
+        $get_new_quiz = [];
+        $list_leaderboard = [];
+
         // dd($list_leaderboard);
 
 

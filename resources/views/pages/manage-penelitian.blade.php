@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Management Murid')
+@section('title', 'Management Penelitian')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -14,10 +14,10 @@ use Illuminate\Support\Str;
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Management Murid</h1>
+                <h1>Management Penelitian</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Murid</a></div>
+                    <div class="breadcrumb-item"><a href="#">Topik Penelitian</a></div>
 
                 </div>
             </div>
@@ -27,7 +27,8 @@ use Illuminate\Support\Str;
                 <div class="row">
 
                     <div class="col-12 ">
-                        <a href="{{ route('add-student') }}" class="btn btn-success btn-block w-25 ">+ Tambah Murid</a>
+                        <a href="{{ url('masyarakat/penelitian/create') }}" class="btn btn-success btn-block w-25 ">+ Tambah
+                            Penelitian</a>
                         <div class="card mt-4">
 
 
@@ -37,10 +38,10 @@ use Illuminate\Support\Str;
                                     <table class="table-striped table-md table">
                                         <tr>
                                             <th>#</th>
-                                            <th>No Induk</th>
-                                            <th>Nama Lengkap</th>
-                                            <th>Email</th>
-                                            <th>Gambar</th>
+                                            <th scope="col">Judul</th>
+                                            <th scope="col">Pengusul</th>
+                                            <th scope="col">Tanggal Pengajuan</th>
+                                            <th scope="col">Status</th>
                                             <th>Action</th>
                                         </tr>
                                         <?php $no = 1; ?>
@@ -48,33 +49,40 @@ use Illuminate\Support\Str;
                                         @foreach ($data as $list)
                                             <tr>
                                                 <td>{{ $no }}</td>
-                                                <td>{{ $list->nomor_induk }}</td>
+
+                                                <td>{{ $list->judul_penelitian }}</td>
+                                                <td>{{ $list->user->nama_lengkap }}</td>
+                                                <td>{{ $list->created_at }}</td>
+
+                                                {{-- <td>
+                                                    {!! nl2br(htmlspecialchars_decode(Str::limit($list->deskripsi, 1000))) !!}
+                                                </td> --}}
 
                                                 <td>
-                                                    {{ $list->nama_lengkap }}
-                                                </td>
-                                                <td>
-                                                    {{ $list->email }}
-
-                                                </td>
-                                                <td>
-                                                    @if ($list->gambar)
-                                                        <img src="{{ asset('img/murid/' . $list->gambar) }}" alt=""
-                                                            width="150">
+                                                    @if ($list->status == 'Selesai')
+                                                        <span
+                                                            class="badge bg-success w-75 text-white">{{ $list->status }}</span>
                                                     @else
-                                                        <i>Gambar Belum Di Setting</i>
+                                                        <span
+                                                            class="badge bg-warning w-75 text-white">{{ $list->status }}</span>
                                                     @endif
 
-
                                                 </td>
-                                                <td><a href="manage-student/{{ $list->id }}/edit"
-                                                        class="btn btn-secondary">Detail</a>
-                                                    <form class="ml-auto mr-auto mt-3" method="POST"
-                                                        action="/teacher/manage-student/{{ $list->id }}">
-                                                        {{ csrf_field() }}
-                                                        @method('DELETE')
-                                                        <button class="btn btn-danger">Delete</button>
-                                                    </form>
+
+                                                <td>
+                                                    <div class="d-flex">
+
+                                                        {{-- <a href="riset/{{ $list->id }}/edit"
+                                                            class="btn btn-info mr-2">Detail</a> --}}
+                                                        <form class="" method="POST"
+                                                            action="/masyarakat/penelitian/{{ $list->id }}"
+                                                            style="display:inline;">
+                                                            @csrf
+
+                                                            @method('DELETE')
+                                                            <button class="btn btn-danger">Hapus</button>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <?php $no++; ?>
@@ -84,7 +92,7 @@ use Illuminate\Support\Str;
                                     </table>
                                 </div>
                             </div>
-                            <div class="card-footer text-right">
+                            {{-- <div class="card-footer text-right">
                                 <nav class="d-inline-block">
                                     <ul class="pagination mb-0">
                                         <li class="page-item disabled">
@@ -102,7 +110,7 @@ use Illuminate\Support\Str;
                                         </li>
                                     </ul>
                                 </nav>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

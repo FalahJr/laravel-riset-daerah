@@ -17,27 +17,19 @@
 
                 @if (Session('user')['role'] == 'Masyarakat')
                     <li class="{{ Request::is('home') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('student/home') }}"><i class="fas fa-th-large"></i>
+                        <a class="nav-link" href="{{ url('masyarakat/home') }}"><i class="fas fa-th-large"></i>
                             <span>Dashboard</span></a>
                     </li>
                     <li class="{{ Request::is('blank-page') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('student/materi') }}"><i class="fas fa-home"></i>
-                            <span>Material</span></a>
-                    </li>
-                    <li class="{{ Request::is('quizzes') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('student/quizzes') }}"><i class="fas fa-file-pen"></i>
-                            <span>Quiz</span></a>
-                    </li>
-                    <li class="{{ Request::is('assignment') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('student/assignment') }}"><i class="fas fa-file-pen"></i>
-                            <span>Assignment</span></a>
+                        <a class="nav-link" href="{{ url('masyarakat/penelitian') }}"><i class="fas fa-home"></i>
+                            <span>Ajukan Penelitian</span></a>
                     </li>
                 @endif
                 {{-- <li class="menu-header">Dashboard</li> --}}
 
                 @if (Session('user')['role'] == 'Admin')
                     <li class="{{ Request::is('/admin/home') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('teacher/home') }}"><i class="fas fa-th-large"></i>
+                        <a class="nav-link" href="{{ url('admin/home') }}"><i class="fas fa-th-large"></i>
                             <span>Dashboard</span></a>
                     </li>
                     <li class="{{ Request::is('admin/riset') ? 'active' : '' }}">
