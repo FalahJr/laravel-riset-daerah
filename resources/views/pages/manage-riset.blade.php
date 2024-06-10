@@ -28,7 +28,7 @@ use Illuminate\Support\Str;
 
                     <div class="col-12 ">
                         <a href="{{ url('admin/riset/create') }}" class="btn btn-success btn-block w-25 ">+ Tambah
-                            Topik
+
                             Riset</a>
                         <div class="card mt-4">
 

@@ -175,9 +175,10 @@
                 <div class="row gy-4">
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="40">
                         <div class="pricing-item d-flex flex-column justify-content-center align-items-center">
-                            <h3>Alamat</h3>
-                            <h4><span>Bappedalitbang Surabaya</span></h4>
-                            <ul>
+                            <h3 class="pt-5">Alamat</h3>
+
+                            <ul class="d-flex flex-column align-items-center">
+                                <span class="text-center">Bappedalitbang Surabaya</span>
                                 <li class="d-flex align-items-start"><i class="bi bi-check"></i>Jl. Pacar No.8,
                                     Ketabang, Kec. Genteng, Surabaya, Jawa
                                     Timur 60272</li>
