@@ -18,12 +18,16 @@ class RisetController extends Controller
 
     public function index()
     {
-        // $data = Riset::join('user', 'user.id', '=', 'materi.user_id')
-        //     ->select('materi.*', 'user.nama_lengkap')
-        //     ->get();
 
-        $data = Riset::all();
 
+        $user_id =  Session('user')['id'];
+        $role =  Session('user')['role'];
+
+        if ($role == "Pemerintah Daerah") {
+            $data = Riset::where('user_id', '=', $user_id)->get();
+        } else {
+            $data = Riset::all();
+        }
 
         // dd($data);
         return view('pages.manage-riset', compact('data'));
@@ -53,6 +57,8 @@ class RisetController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        $user_id =  Session('user')['id'];
+
         if ($request) {
             if ($request->hasFile('upload_file')) {
 
@@ -64,6 +70,7 @@ class RisetController extends Controller
 
                 $topik_riset = new Riset;
                 $topik_riset->judul = $request->judul;
+                $topik_riset->user_id = $user_id;
                 $topik_riset->tahun = $request->tahun;
                 $topik_riset->no_telepon = $request->no_telepon;
                 $topik_riset->abstrak = $request->abstrak;
@@ -76,12 +83,21 @@ class RisetController extends Controller
 
 
 
-
-                return redirect('/admin/riset');
+                if (Session('user')['role'] == "Admin") {
+                    # code...
+                    return redirect('/admin/riset');
+                } else {
+                    return redirect('/pemerintah-daerah/riset');
+                }
             }
             // ->with('success', 'Berhasil membuat Materi');
         } else {
-            return redirect('/admin/riset');
+            if (Session('user')['role'] == "Admin") {
+                # code...
+                return redirect('/admin/riset');
+            } else {
+                return redirect('/pemerintah-daerah/riset');
+            }
             // ->with('failed', 'Gagal membuat Materi');
         }
     }
@@ -121,10 +137,20 @@ class RisetController extends Controller
 
             $topik_riset->upload_file = $fileName;
             $topik_riset->save();
-            return redirect('/admin/riset');
+            if (Session('user')['role'] == "Admin") {
+                # code...
+                return redirect('/admin/riset');
+            } else {
+                return redirect('/pemerintah-daerah/riset');
+            }
         } else {
             $topik_riset->save();
-            return redirect('/admin/riset');
+            if (Session('user')['role'] == "Admin") {
+                # code...
+                return redirect('/admin/riset');
+            } else {
+                return redirect('/pemerintah-daerah/riset');
+            }
         }
     }
 
@@ -135,9 +161,19 @@ class RisetController extends Controller
 
 
         if ($riset->delete()) {
-            return redirect('/admin/riset');
+            if (Session('user')['role'] == "Admin") {
+                # code...
+                return redirect('/admin/riset');
+            } else {
+                return redirect('/pemerintah-daerah/riset');
+            }
         } else {
-            return redirect('/admin/riset');
+            if (Session('user')['role'] == "Admin") {
+                # code...
+                return redirect('/admin/riset');
+            } else {
+                return redirect('/pemerintah-daerah/riset');
+            }
         }
     }
 }

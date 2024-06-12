@@ -31,9 +31,11 @@
                             <div class="card-header">
                                 <h4>Form Tambah Penelitian</h4>
                             </div>
-                            <form class="form" action="/masyarakat/penelitian" method="post"
-                                enctype="multipart/form-data">
+                            <form class="form" action="{{ url('/admin/usulan-penelitian/' . Request::segment(3)) }}"
+                                method="post" enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT')
+
                                 {{-- <div class="card-body">
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Judul</label>
@@ -78,14 +80,15 @@
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Judul</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <input type="text" class="form-control" name="judul_penelitian" required>
+                                            <input type="text" class="form-control" name="judul_penelitian" required
+                                                value="{{ $penelitian->judul_penelitian }}" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Tahun</label>
                                         <div class="col-sm-12 col-md-7">
                                             <input type="number" class="form-control" name="tahun" required
-                                                min="0">
+                                                value="{{ $penelitian->tahun }}" min="0" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-4">
@@ -93,21 +96,24 @@
                                             Telepon</label>
                                         <div class="col-sm-12 col-md-7">
                                             <input type="number" class="form-control" name="no_telepon" required
-                                                min="0">
+                                                value="{{ $penelitian->no_telepon }}" min="0" disabled>
                                         </div>
                                     </div>
 
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Abstrak</label>
                                         <div class="col-sm-12 col-md-7">
-                                            <textarea class="summernote" name="abstrak" required></textarea>
+                                            <textarea class="w-100" name="abstrak" disabled required>{{ $penelitian->abstrak }}</textarea>
                                         </div>
                                     </div>
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">File</label>
                                         <div class="col-sm-12 col-md-7">
-
-                                            <input type="file" class="form-control" name="upload_file" required>
+                                            <a href="{{ asset('file_upload/penelitian/' . $penelitian->file) }}"
+                                                class="btn btn-primary btn-md mb-3" target="_blank">
+                                                View File
+                                            </a>
+                                            {{-- <input type="file" class="form-control" name="upload_file" required disabled> --}}
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -115,14 +121,43 @@
                                             Publikasi</label>
                                         <div class="col-sm-12 col-md-7">
 
-                                            <select class="form-control select2" name="is_publish" required>
+                                            <select class="form-control select2" name="is_publish" required disabled>
                                                 <option value="" disabled selected>Pilih Status</option>
 
-                                                <option value="Y">Publikasi</option>
-                                                <option value="N">Privasi</option>
+                                                <option value="Y"
+                                                    {{ $penelitian->is_publish == 'Y' ? 'selected' : '' }}>
+                                                    Publikasi
+                                                </option>
+                                                <option value="N"
+                                                    {{ $penelitian->is_publish == 'N' ? 'selected' : '' }}>
+                                                    Privasi
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
+                                    @if (Session('user')['role'] == 'Admin')
+                                        <div class="form-group row">
+                                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status
+                                                Usulan
+                                                Penelitian</label>
+                                            <div class="col-sm-12 col-md-7">
+
+                                                <select class="form-control select2" name="status" required>
+                                                    <option value="" disabled selected>Pilih Status</option>
+
+                                                    <option value="Selesai"
+                                                        {{ $penelitian->is_publish == 'Selesai' ? 'selected' : '' }}>
+                                                        Setujui
+                                                    </option>
+                                                    <option value="Sedang Diproses"
+                                                        {{ $penelitian->is_publish == 'Sedang Diproses' ? 'selected' : '' }}>
+                                                        Sedang Diproses
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    @endif
+
 
                                     <div class="form-group row mb-4">
                                         <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>

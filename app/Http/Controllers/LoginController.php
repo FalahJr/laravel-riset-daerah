@@ -113,28 +113,11 @@ class LoginController extends Controller
                     return redirect('masyarakat/home');
                     break;
 
-                    // case 'Karyawan':
-                    //     return redirect('/karyawan/home');
-                    //     break;
-                    // case 'Kepala Bagian':
-                    //     return redirect('/kepala-bagian/home');
-                    //     break;
+                case 'Pemerintah Daerah':
+                    return redirect('pemerintah-daerah/home');
+                    break;
 
-                    // case 'Kepala Sub Bagian':
-                    //     return redirect('/kepala-sub-bagian/home');
-                    //     break;
 
-                    // case 'Direktur':
-                    //     return redirect('/direktur/home');
-                    //     break;
-
-                    //     // case 'Manager':
-                    //     //     return redirect('/pejabat-struktural/home');
-                    //     //     break;
-
-                    // case 'admin':
-                    //     return redirect('/admin/home');
-                    //     break;
 
                 default:
                     return redirect('/')->with('failed', 'Data User Tidak Ditemukan');

@@ -26,14 +26,56 @@ class PublicController extends Controller
 
     }
 
-    public function riset()
+    public function riset(Request $request)
     {
-        $riset = Riset::all();
-        return view('riset', compact('riset'));
+        // $riset = Riset::all();
+        // return view('riset', compact('riset'));
 
-        // dd($role);
+        // // dd($role);
 
+        $query = Riset::query();
+
+        if ($request->filled('judul')) {
+            $query->where('judul', 'like', '%' . $request->judul . '%');
+        }
+
+        if ($request->filled('tahun')) {
+            $query->where('tahun', $request->tahun);
+        }
+
+        $riset = $query->get();
+
+        return view('riset', compact('riset'))->with([
+            'judul' => $request->judul,
+            'tahun' => $request->tahun,
+        ]);
     }
+
+    public function searchRiset(Request $request)
+    {
+        // $request->validate([
+        //     'nama' => 'nullable|string|max:255',
+        //     'tahun_angkatan' => 'nullable|integer',
+        // ]);
+
+        $judul = $request->input('judul');
+        $tahun = $request->input('tahun');
+
+        $query = Riset::query();
+
+        if ($judul) {
+            $query->where('judul', 'like', '%' . $judul . '%');
+        }
+
+        if ($tahun) {
+            $query->where('tahun', $tahun);
+        }
+
+        $riset = $query->get();
+
+        return view('riset', compact('riset'));
+    }
+
     public function topik_riset()
     {
         $topik_riset = TopikRiset::all();
@@ -43,12 +85,61 @@ class PublicController extends Controller
 
     }
 
-    public function usulan_penelitian()
+    public function usulan_penelitian(Request $request)
     {
-        $usulan_penelitian = UsulanPenelitian::all();
-        return view('usulan-penelitian', compact('usulan_penelitian'));
+        // $usulan_penelitian = UsulanPenelitian::where('status', '=', 'Sedang Diproses')->get();
+        // return view('usulan-penelitian', compact('usulan_penelitian'));
 
         // dd($role);
 
+        $query = UsulanPenelitian::where('status', '=', 'Sedang Diproses');
+
+        if ($request->filled('judul_penelitian')) {
+            $query->where('judul_penelitian', 'like', '%' . $request->judul_penelitian . '%');
+        }
+
+        if ($request->filled('tahun')) {
+            $query->where('tahun', $request->tahun);
+        }
+
+        $usulan_penelitian = $query->get();
+
+        // return view('riset', compact('riset'))->with([
+        //     'judul' => $request->judul,
+        //     'tahun' => $request->tahun,
+        // ]);
+
+        return view('usulan-penelitian',  compact('usulan_penelitian'))->with([
+            'judul_penelitian' => $request->judul_penelitian,
+            'tahun' => $request->tahun,
+        ]);
+    }
+
+    public function hasil_penelitian(Request $request)
+    {
+        // $usulan_penelitian = UsulanPenelitian::where('status', '=', 'Selesai')->get();
+        // dd($usulan_penelitian);
+
+        $query = UsulanPenelitian::where('status', '=', 'Selesai');
+
+        if ($request->filled('judul_penelitian')) {
+            $query->where('judul_penelitian', 'like', '%' . $request->judul_penelitian . '%');
+        }
+
+        if ($request->filled('tahun')) {
+            $query->where('tahun', $request->tahun);
+        }
+
+        $usulan_penelitian = $query->get();
+
+        // return view('riset', compact('riset'))->with([
+        //     'judul' => $request->judul,
+        //     'tahun' => $request->tahun,
+        // ]);
+
+        return view('hasil-penelitian',  compact('usulan_penelitian'))->with([
+            'judul_penelitian' => $request->judul_penelitian,
+            'tahun' => $request->tahun,
+        ]);
     }
 }

@@ -27,9 +27,12 @@ use Illuminate\Support\Facades\Route;
 
 // Route::redirect('/', '/login');
 Route::get('/', [PublicController::class, 'index']);
-Route::get('/riset', [PublicController::class, 'riset']);
+Route::get('/riset', [PublicController::class, 'riset'])->name('riset');
+// Route::post('/search-riset', [PublicController::class, 'searchRiset']);
+
 Route::get('/topik-riset', [PublicController::class, 'topik_riset']);
-Route::get('/usulan-penelitian', [PublicController::class, 'usulan_penelitian']);
+Route::get('/usulan-penelitian', [PublicController::class, 'usulan_penelitian'])->name('usulan-penelitian');
+Route::get('/hasil-penelitian', [PublicController::class, 'hasil_penelitian'])->name('hasil-penelitian');
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -39,29 +42,19 @@ Route::get('/usulan-penelitian', [PublicController::class, 'usulan_penelitian'])
 Route::get('/home', function () {
     return view('pages.dashboard', ['type_menu' => 'dashboard']);
 });
-Route::get('/dashboard-ecommerce-dashboard', function () {
-    return view('pages.dashboard-ecommerce-dashboard', ['type_menu' => 'dashboard']);
-});
+
 
 // Login 
 
-Route::get('/login-student', [LoginController::class, 'index_student'])->name('login-student');
-Route::get('/login-teacher', [LoginController::class, 'index_teacher'])->name('login-teacher');
 Route::get('/logout-action', [LoginController::class, 'logout_action']);
 
 
 
 Route::post('/login-action', [LoginController::class, 'login_action']);
 
-// Murid
+// masyarakat
 Route::middleware(['authMasyarakat'])->prefix('masyarakat')->group(function () {
-    // Route::get('/home', function () {
-    //     return view('pages.dashboard', ['type_menu' => 'dashboard']);
-    // })->name('home-murid');
 
-    // Route::get('/materi', function () {
-    //     return view('pages.materi', ['type_menu' => 'components']);
-    // });
     Route::get('/home', [DashboardController::class, 'indexDashboardMurid'])->name('home');
     Route::resource('/penelitian', PenelitianController::class);
 });
@@ -70,16 +63,17 @@ Route::middleware(['authAdmin'])->prefix('admin')->group(function () {
     Route::get('/home', [DashboardController::class, 'indexDashboardGuru'])->name('home');
 
 
-    // Route::get('/materi', [MateriController::class, 'index']);
     Route::resource('/riset', RisetController::class);
     Route::resource('/topik-riset', TopikRisetController::class);
-    // Route::get('/riset', [RisetController::class, 'index']);
+    Route::resource('/usulan-penelitian', PenelitianController::class);
+});
 
-    // Route::get('riset/add', [RisetController::class, 'create'])->name("add-riset");
+Route::middleware(['authPemerintahDaerah'])->prefix('pemerintah-daerah')->group(function () {
+    Route::get('/home', [DashboardController::class, 'indexPemerintahDaerah'])->name('home');
 
 
-
-    // Route::post('/store-materi', [MateriController::class, 'store']);
+    Route::resource('/riset', RisetController::class);
+    Route::resource('/topik-riset', TopikRisetController::class);
 });
 
 // Layout

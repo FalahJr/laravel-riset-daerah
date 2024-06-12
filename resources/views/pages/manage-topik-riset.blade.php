@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
                 <h1>Management Topik Riset</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Riset</a></div>
+                    <div class="breadcrumb-item"><a href="#">Topik Riset</a></div>
 
                 </div>
             </div>

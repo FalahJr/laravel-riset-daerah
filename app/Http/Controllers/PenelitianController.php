@@ -19,22 +19,24 @@ class PenelitianController extends Controller
 
     public function index()
     {
-        // $data = Riset::join('user', 'user.id', '=', 'materi.user_id')
-        //     ->select('materi.*', 'user.nama_lengkap')
-        //     ->get();
+        $role = Session('user')['role'];
+        $user_id = Session('user')['id'];
 
-        $data = UsulanPenelitian::all();
+        if ($role == "Admin") {
+            $data = UsulanPenelitian::all();
+        } else {
+            $data = UsulanPenelitian::where('user_id', '=', $user_id)->get();
+        }
 
 
         // dd($data);
         return view('pages.manage-penelitian', compact('data'));
     }
 
+
+
     public function getListPenelitian()
     {
-        // $data = Riset::join('user', 'user.id', '=', 'materi.user_id')
-        //     ->select('materi.*', 'user.nama_lengkap')
-        //     ->get();
 
         $data = UsulanPenelitian::all();
 
@@ -64,8 +66,12 @@ class PenelitianController extends Controller
                 $topik_riset = new UsulanPenelitian;
                 $topik_riset->user_id = Session('user')['id'];
                 $topik_riset->judul_penelitian = $request->judul_penelitian;
-                $topik_riset->identifikasi_masalah = $request->identifikasi_masalah;
-                $topik_riset->tujuan = $request->tujuan;
+                $topik_riset->tahun = $request->tahun;
+                $topik_riset->abstrak = $request->abstrak;
+                $topik_riset->no_telepon = $request->no_telepon;
+                $topik_riset->is_publish = $request->is_publish;
+                // $topik_riset->identifikasi_masalah = $request->identifikasi_masalah;
+                // $topik_riset->tujuan = $request->tujuan;
                 $topik_riset->file = $fileName;
                 $topik_riset->status = "Sedang Diproses";
 
@@ -87,45 +93,46 @@ class PenelitianController extends Controller
     }
     public function edit(Request $request)
     {
-        // $data['karyawan'] = Pegawai::where([
-        //     'id' => $request->segment(3)
-        // ])->first();
-        $riset = Riset::where([
+        // dd($request->segment(3));
+        $penelitian = UsulanPenelitian::where([
             'id' => $request->segment(3)
         ])->first();
 
-        return view('pages.edit-riset', compact('riset'));
+        return view('pages.edit-penelitian', compact('penelitian'));
     }
 
     public function update(Request $request)
     {
         // dd($request->all());
 
-        $topik_riset = Riset::where([
+        $penelitian = UsulanPenelitian::where([
             'id' => $request->segment(3)
         ])->first();
         // dd($request->all());
-        $topik_riset->judul = $request->judul;
-        $topik_riset->tahun = $request->tahun;
-        $topik_riset->no_telepon = $request->no_telepon;
-        $topik_riset->abstrak = $request->abstrak;
-        $topik_riset->is_publish = $request->is_publish;
-        $topik_riset->created_at = Carbon::now();
-        $topik_riset->updated_at = Carbon::now();
+        $penelitian->status = $request->status;
+        // $penelitian->tahun = $request->tahun;
+        // $penelitian->no_telepon = $request->no_telepon;
+        // $penelitian->abstrak = $request->abstrak;
+        // $penelitian->is_publish = $request->is_publish;
+        $penelitian->created_at = Carbon::now();
+        $penelitian->updated_at = Carbon::now();
         // $karyawan->image=$request->image;
+        $penelitian->save();
+
+        return redirect('/admin/usulan-penelitian');
 
         // if ($topik_riset->save()) {
-        if ($request->hasFile('upload_file')) {
-            $fileName = $request->file('upload_file')->getClientOriginalName();
-            $request->file('upload_file')->move('file_upload/riset', $fileName);
+        // if ($request->hasFile('upload_file')) {
+        //     $fileName = $request->file('upload_file')->getClientOriginalName();
+        //     $request->file('upload_file')->move('file_upload/riset', $fileName);
 
-            $topik_riset->upload_file = $fileName;
-            $topik_riset->save();
-            return redirect('/masyarakat/penelitian');
-        } else {
-            $topik_riset->save();
-            return redirect('/masyarakat/penelitian');
-        }
+        //     $topik_riset->upload_file = $fileName;
+        //     $topik_riset->save();
+        //     return redirect('/masyarakat/penelitian');
+        // } else {
+        //     $topik_riset->save();
+        //     return redirect('/masyarakat/penelitian');
+        // }
     }
 
     public function destroy(Request $request, $id)

@@ -27,8 +27,12 @@ use Illuminate\Support\Str;
                 <div class="row">
 
                     <div class="col-12 ">
-                        <a href="{{ url('masyarakat/penelitian/create') }}" class="btn btn-success btn-block w-25 ">+ Tambah
-                            Penelitian</a>
+                        @if (Session('user')['role'] == 'Masyarakat')
+                            <a href="{{ url('masyarakat/penelitian/create') }}" class="btn btn-success btn-block w-25 ">+
+                                Tambah
+                                Penelitian</a>
+                        @endif
+
                         <div class="card mt-4">
 
 
@@ -72,10 +76,13 @@ use Illuminate\Support\Str;
                                                 <td>
                                                     <div class="d-flex">
 
-                                                        {{-- <a href="riset/{{ $list->id }}/edit"
-                                                            class="btn btn-info mr-2">Detail</a> --}}
+                                                        @if (Session('user')['role'] == 'Admin')
+                                                            <a href="usulan-penelitian/{{ $list->id }}/edit"
+                                                                class="btn btn-info mr-2">Detail</a>
+                                                        @endif
+
                                                         <form class="" method="POST"
-                                                            action="/masyarakat/penelitian/{{ $list->id }}"
+                                                            action="{{ Session('user')['role'] == 'Admin' ? url('/masyarakat/penelitian/' . $list->id) : url('/admin/usulan-penelitian/' . $list->id) }}"
                                                             style="display:inline;">
                                                             @csrf
 

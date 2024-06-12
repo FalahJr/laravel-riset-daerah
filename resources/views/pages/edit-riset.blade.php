@@ -31,8 +31,9 @@
                             <div class="card-header">
                                 <h4>Form Edit Riset</h4>
                             </div>
-                            <form class="form" action="/admin/riset/{{ Request::segment(3) }}" method="post"
-                                enctype="multipart/form-data">
+                            <form class="form"
+                                action="{{ Session('user')['role'] == 'Admin' ? url('/admin/riset/' . Request::segment(3)) : url('/pemerintah-daerah/riset/' . Request::segment(3)) }}"
+                                method="post" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
 

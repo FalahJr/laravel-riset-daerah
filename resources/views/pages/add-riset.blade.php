@@ -31,7 +31,9 @@
                             <div class="card-header">
                                 <h4>Form Tambah Riset</h4>
                             </div>
-                            <form class="form" action="/admin/riset" method="post" enctype="multipart/form-data">
+                            <form class="form"
+                                action="{{ Session('user')['role'] == 'Admin' ? '/admin/riset' : '/pemerintah-daerah/riset' }}"
+                                method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group row mb-4">

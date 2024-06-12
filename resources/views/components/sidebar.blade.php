@@ -1,7 +1,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper ">
         <div class="sidebar-brand">
-            <a href="{{ route('home') }}" class="" style="width:100%">
+            <a href="{{ url('/') }}" class="" style="width:100%">
                 {{-- <img alt="image" class="rounded-circle mr-3" width="50" src="{{ asset('img/logo-lms.png') }}"> --}}
                 <span style="width: 50%">SI REDAH (Riset Daerah)</span>
             </a>
@@ -40,39 +40,21 @@
                         <a class="nav-link" href="{{ url('admin/topik-riset') }}"><i class="fas fa-file-pen"></i>
                             <span>Managemen Topik Riset</span></a>
                     </li>
-
-                    {{-- <li class="{{ Request::is('manage-student') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ url('teacher/manage-student') }}"><i class="fas fa-user"></i>
-                            <span>Manage Students</span></a>
+                    <li class="{{ Request::is('admin/usulan-penelitian') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('admin/usulan-penelitian') }}"><i class="fas fa-file-pen"></i>
+                            <span>Usulan Penelitian</span></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                class="fas fa-columns"></i>
-                            <span>Manage Quiz</span></a>
-                        <ul class="dropdown-menu">
-                            <li class="{{ Request::is('teacher/quizzes') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ url('teacher/quizzes') }}">Quiz</a>
-                            </li>
-                            <li class="{{ Request::is('transparent-sidebar') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ url('transparent-sidebar') }}">Questions & Answer</a>
-                            </li>
+                @endif
 
-                        </ul>
+                @if (Session('user')['role'] == 'Pemerintah Daerah')
+                    <li class="{{ Request::is('/admin/home') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('pemerintah-daerah/home') }}"><i class="fas fa-th-large"></i>
+                            <span>Dashboard</span></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                class="fas fa-columns"></i>
-                            <span>Assignment</span></a>
-                        <ul class="dropdown-menu">
-                            <li class="{{ Request::is('teacher/assignment') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ url('teacher/assignment') }}">Manage Assignment</a>
-                            </li>
-                            <li class="{{ Request::is('submission/') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ url('teacher/assignments/submission/') }}">Result</a>
-                            </li>
-
-                        </ul>
-                    </li> --}}
+                    <li class="{{ Request::is('admin/riset') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('pemerintah-daerah/riset') }}"><i class="fas fa-home"></i>
+                            <span>Managemen Riset</span></a>
+                    </li>
                 @endif
 
 

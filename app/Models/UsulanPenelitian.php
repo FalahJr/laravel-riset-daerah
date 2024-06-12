@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $user_id
  * @property string $judul_penelitian
+ * @property integer $tahun
+ * @property string $no_telepon
+ * @property string $abstrak
  * @property string $identifikasi_masalah
  * @property string $tujuan
  * @property string $file
@@ -28,7 +31,7 @@ class UsulanPenelitian extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'judul_penelitian', 'identifikasi_masalah', 'tujuan', 'file', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id', 'judul_penelitian', 'tahun', 'no_telepon', 'abstrak', 'identifikasi_masalah', 'tujuan', 'file', 'status', 'is_publish', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

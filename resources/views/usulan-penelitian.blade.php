@@ -35,39 +35,56 @@
                 @else
                     <a href="{{ url('/login') }}" class="btn btn-success btn-block w-25 mb-5">+ Ajukan</a>
                 @endif
+
+                <form action="{{ route('usulan-penelitian') }}" method="GET" class="row">
+                    {{-- @csrf --}}
+                    <div class="mb-3 col-12 col-md-5">
+                        <input type="text" class="form-control" id="judul_penelitian" name="judul_penelitian"
+                            placeholder="Judul Penelitian" value="{{ request('judul_penelitian') }}">
+                    </div>
+                    <div class="mb-3 col-12 col-md-5">
+                        <input type="number" class="form-control" id="tahun" name="tahun" placeholder="Tahun"
+                            value="{{ request('tahun') }}">
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Judul</th>
-                            <th scope="col">Pengusul</th>
-                            <th scope="col">Tanggal Pengajuan</th>
+                            {{-- <th scope="col">Pengusul</th> --}}
+                            <th scope="col">Tahun</th>
                             {{-- <th scope="col">Abstrak</th> --}}
-                            <th scope="col">Status</th>
+                            {{-- <th scope="col">Status</th> --}}
 
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no = 1; ?>
 
-                        @foreach ($usulan_penelitian as $list)
+                        @forelse ($usulan_penelitian as $list)
                             <tr>
-                                <th scope="row">{{ $no }}</th>
+                                <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $list->judul_penelitian }}</td>
-                                <td>{{ $list->user->nama_lengkap }}</td>
-                                <td>{{ $list->created_at }}</td>
-                                <td>
+                                {{-- <td>{{ $list->user->nama_lengkap }}</td> --}}
+                                <td>{{ $list->tahun }}</td>
+                                {{-- <td>
                                     @if ($list->status == 'Selesai')
                                         <span class="badge bg-success w-75">{{ $list->status }}</span>
                                     @else
                                         <span class="badge bg-warning w-75">{{ $list->status }}</span>
                                     @endif
 
-                                </td>
+                                </td> --}}
 
                             </tr>
-                            <?php $no++; ?>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">No data found</td>
+                            </tr>
+                        @endforelse
 
                     </tbody>
                 </table>

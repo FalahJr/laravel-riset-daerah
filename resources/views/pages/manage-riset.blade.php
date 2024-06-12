@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
                 <h1>Management Riset</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Topik Riset</a></div>
+                    <div class="breadcrumb-item"><a href="#">Topik</a></div>
 
                 </div>
             </div>
@@ -27,7 +27,8 @@ use Illuminate\Support\Str;
                 <div class="row">
 
                     <div class="col-12 ">
-                        <a href="{{ url('admin/riset/create') }}" class="btn btn-success btn-block w-25 ">+ Tambah
+                        <a href="{{ Session('user')['role'] == 'Admin' ? url('admin/riset/create') : url('pemerintah-daerah/riset/create') }}"
+                            class="btn btn-success btn-block w-25 ">+ Tambah
 
                             Riset</a>
                         <div class="card mt-4">
@@ -80,7 +81,7 @@ use Illuminate\Support\Str;
                                                         <a href="riset/{{ $list->id }}/edit"
                                                             class="btn btn-info mr-2">Detail</a>
                                                         <form class="" method="POST"
-                                                            action="/admin/riset/{{ $list->id }}"
+                                                            action="{{ Session('user')['role'] == 'Admin' ? url('/admin/riset/' . $list->id) : url('/pemerintah-daerah/riset/' . $list->id) }}"
                                                             style="display:inline;">
                                                             @csrf
 

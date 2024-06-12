@@ -56,6 +56,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="penelitianDropdown">
                                 <li><a class="dropdown-item" href="/usulan-penelitian">Usulan Penelitian</a></li>
+                                <li><a class="dropdown-item" href="/hasil-penelitian">Hasil Penelitian</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">

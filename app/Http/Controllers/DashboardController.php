@@ -18,7 +18,12 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return view('pages.dashboard-guru');
+        return view('pages.dashboard-admin');
+    }
+
+    public function indexPemerintahDaerah()
+    {
+        return view('pages.dashboard-pemda');
     }
 
     public function indexDashboardMurid()
