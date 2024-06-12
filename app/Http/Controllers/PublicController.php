@@ -76,13 +76,28 @@ class PublicController extends Controller
         return view('riset', compact('riset'));
     }
 
-    public function topik_riset()
+    public function topik_riset(Request $request)
     {
-        $topik_riset = TopikRiset::all();
-        return view('topik-riset', compact('topik_riset'));
+        // $topik_riset = TopikRiset::all();
+        // return view('topik-riset', compact('topik_riset'));
 
-        // dd($role);
+        // dd($request->permasalahan);
+        $query = TopikRiset::query();
 
+        if ($request->filled('isu_permasalahan')) {
+            $query->where('isu_permasalahan', 'like', '%' . $request->isu_permasalahan . '%');
+        }
+
+        if ($request->filled('permasalahan')) {
+            $query->where('permasalahan', 'like', '%' . $request->permasalahan . '%');
+        }
+
+        $topik_riset = $query->get();
+
+        return view('topik-riset', compact('topik_riset'))->with([
+            'isu_permasalahan' => $request->isu_permasalahan,
+            'permasalahan' => $request->permasalahan,
+        ]);
     }
 
     public function usulan_penelitian(Request $request)

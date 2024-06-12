@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
+ * @property string $isu_permasalahan
+ * @property string $permasalahan
+ * @property string $pertanyaan_riset
+ * @property string $keterangan
  * @property string $no_dokumen
  * @property string $judul
  * @property string $nama
@@ -25,5 +29,5 @@ class TopikRiset extends Model
     /**
      * @var array
      */
-    protected $fillable = ['no_dokumen', 'judul', 'nama', 'file', 'created_at', 'updated_at'];
+    protected $fillable = ['isu_permasalahan', 'permasalahan', 'pertanyaan_riset', 'keterangan', 'no_dokumen', 'judul', 'nama', 'file', 'created_at', 'updated_at'];
 }

@@ -54,9 +54,13 @@ class TopikRisetController extends Controller
                 $request->file('file')->move('file_upload/topik-riset', $fileName);
 
                 $riset = new TopikRiset;
-                $riset->judul = $request->judul;
-                $riset->no_dokumen = $request->no_dokumen;
-                $riset->nama = $request->nama;
+                $riset->isu_permasalahan = $request->isu_permasalahan;
+                $riset->permasalahan = $request->permasalahan;
+                $riset->pertanyaan_riset = $request->pertanyaan_riset;
+                $riset->keterangan = $request->keterangan;
+                // $riset->judul = $request->judul;
+                // $riset->no_dokumen = $request->no_dokumen;
+                // $riset->nama = $request->nama;
                 $riset->file = $fileName;
                 $riset->created_at = Carbon::now();
                 $riset->updated_at = Carbon::now();
@@ -94,9 +98,13 @@ class TopikRisetController extends Controller
             'id' => $request->segment(3)
         ])->first();
         // dd($request->all());
-        $riset->judul = $request->judul;
-        $riset->no_dokumen = $request->no_dokumen;
-        $riset->nama = $request->nama;
+        $riset->isu_permasalahan = $request->isu_permasalahan;
+        $riset->permasalahan = $request->permasalahan;
+        $riset->pertanyaan_riset = $request->pertanyaan_riset;
+        $riset->keterangan = $request->keterangan;
+        // $riset->judul = $request->judul;
+        // $riset->no_dokumen = $request->no_dokumen;
+        // $riset->nama = $request->nama;
         $riset->created_at = Carbon::now();
         $riset->updated_at = Carbon::now();
         // $karyawan->image=$request->image;

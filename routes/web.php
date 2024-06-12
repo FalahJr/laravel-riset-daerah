@@ -30,7 +30,7 @@ Route::get('/', [PublicController::class, 'index']);
 Route::get('/riset', [PublicController::class, 'riset'])->name('riset');
 // Route::post('/search-riset', [PublicController::class, 'searchRiset']);
 
-Route::get('/topik-riset', [PublicController::class, 'topik_riset']);
+Route::get('/topik-riset', [PublicController::class, 'topik_riset'])->name('topik-riset');
 Route::get('/usulan-penelitian', [PublicController::class, 'usulan_penelitian'])->name('usulan-penelitian');
 Route::get('/hasil-penelitian', [PublicController::class, 'hasil_penelitian'])->name('hasil-penelitian');
 // Route::get('/', function () {

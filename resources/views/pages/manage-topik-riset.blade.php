@@ -38,10 +38,10 @@ use Illuminate\Support\Str;
                                     <table class="table-striped table-md table">
                                         <tr>
                                             <th>#</th>
-                                            <th>No. Dokumen</th>
-                                            <th>Judul</th>
-                                            <th>Nama</th>
-                                            <th>Dokumen</th>
+                                            <th>Isu Permasalahan</th>
+                                            <th>Permasalahan</th>
+                                            <th>Pertanyaan Riset</th>
+                                            <th>Keterangan</th>
                                             <th>Action</th>
                                         </tr>
                                         <?php $no = 1; ?>
@@ -49,16 +49,18 @@ use Illuminate\Support\Str;
                                         @foreach ($data as $list)
                                             <tr>
                                                 <td>{{ $no }}</td>
-                                                <td>{{ $list->no_dokumen }}</td>
+                                                <td>{{ $list->isu_permasalahan }}</td>
+                                                <td>{{ $list->permasalahan }}</td>
 
-                                                <td>{{ $list->judul }}</td>
+                                                <td>{{ $list->pertanyaan_riset }}</td>
+                                                <td>{{ $list->keterangan }}</td>
 
                                                 {{-- <td>
                                                     {!! nl2br(htmlspecialchars_decode(Str::limit($list->deskripsi, 1000))) !!}
                                                 </td> --}}
-                                                <td>
+                                                {{-- <td>
                                                     {{ $list->nama }}
-                                                </td>
+                                                </td> --}}
                                                 <td>
                                                     <a href="{{ asset('file_upload/topik-riset/' . $list->file) }}"
                                                         class="btn btn-primary btn-sm" download>

@@ -29,29 +29,41 @@
         <section id="featured-services" class="featured-services">
 
             <div class="container  mt-5">
+                <h4>Pencarian Topik Riset</h4>
 
+                <form action="{{ route('topik-riset') }}" method="GET" class="row mt-3">
+                    {{-- @csrf --}}
+                    <div class="mb-3 col-12 col-md-5">
+                        <input type="text" class="form-control" id="judul" name="isu_permasalahan"
+                            placeholder="Isu Permasalahan" value="{{ request('isu_permasalahan') }}">
+                    </div>
+                    <div class="mb-3 col-12 col-md-5">
+                        <input type="text" class="form-control" id="permasalahan" name="permasalahan"
+                            placeholder="Permasalahan" value="{{ request('permasalahan') }}">
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                </form>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th>No. Dokumen</th>
-                            <th>Judul</th>
-                            <th>Nama</th>
+                            <th>Isu Permasalahan</th>
+                            <th>Permasalahan</th>
+                            {{-- <th>Nama</th> --}}
                             <th>Dokumen</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $no = 1; ?>
 
-                        @foreach ($topik_riset as $list)
+                        @forelse ($topik_riset as $list)
                             <tr>
-                                <th scope="row">{{ $no }}</th>
-                                <td>{{ $list->no_dokumen }}</td>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>{{ $list->isu_permasalahan }}</td>
 
-                                <td>{{ $list->judul }}</td>
-                                <td>
-                                    {{ $list->nama }}
-                                </td>
+                                <td>{{ $list->permasalahan }}</td>
+
                                 <td>
                                     <a href="{{ asset('file_upload/topik-riset/' . $list->file) }}"
                                         class="btn btn-primary btn-sm" download>
@@ -59,8 +71,11 @@
                                     </a>
                                 </td>
                             </tr>
-                            <?php $no++; ?>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">No data found</td>
+                            </tr>
+                        @endforelse
 
                     </tbody>
                 </table>
