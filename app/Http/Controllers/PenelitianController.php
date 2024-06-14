@@ -57,9 +57,6 @@ class PenelitianController extends Controller
         if ($request) {
             if ($request->hasFile('upload_file')) {
 
-                // $getPegawaiBaru = Pegawai::orderBy('created_at', 'desc')->first();
-                // $getKonfigCuti = Konfig_cuti::where('tahun',(new \DateTime())->format('Y'))->first();
-                // $request->file('image')->move('img/materi', $request->file('gambar')->getClientOriginalName());
                 $fileName = $request->file('upload_file')->getClientOriginalName();
                 $request->file('upload_file')->move('file_upload/penelitian', $fileName);
 
@@ -110,10 +107,7 @@ class PenelitianController extends Controller
         ])->first();
         // dd($request->all());
         $penelitian->status = $request->status;
-        // $penelitian->tahun = $request->tahun;
-        // $penelitian->no_telepon = $request->no_telepon;
-        // $penelitian->abstrak = $request->abstrak;
-        // $penelitian->is_publish = $request->is_publish;
+
         $penelitian->created_at = Carbon::now();
         $penelitian->updated_at = Carbon::now();
         // $karyawan->image=$request->image;

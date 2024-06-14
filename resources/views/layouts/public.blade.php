@@ -48,7 +48,7 @@
                 <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
                 <nav id="navbar" class="navbar">
                     <ul>
-                        <li><a href="index.html" class="active">Beranda</a></li>
+                        <li><a href="/" class="active">Beranda</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="penelitianDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -69,8 +69,8 @@
                                 <li><a class="dropdown-item" href="/riset">Riset</a></li>
                             </ul>
                         </li>
-                        <li><a href="hubungi.html">Hubungi Kami</a></li>
-                        <li><a href="register.html">Register</a></li>
+                        <li><a href="/#contact">Hubungi Kami</a></li>
+                        {{-- <li><a href="register.html">Register</a></li> --}}
                         <li><a href="/login">Login</a></li>
                         <ul>
                 </nav><!-- .navbar -->
@@ -95,7 +95,7 @@
             <div class="container">
                 <div class="row gy-4">
                     <div class="col-lg-5 col-md-12 footer-info">
-                        <a href="index.html" class="logo d-flex align-items-center">
+                        <a href="/" class="logo d-flex align-items-center">
                             <span>SI REDAH</span>
                         </a>
                         <p class="mt-5">SI REDAH adalah sistem informasi berbasis website yang dikembangkan untuk
