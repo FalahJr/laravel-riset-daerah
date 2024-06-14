@@ -18,9 +18,7 @@ class TopikRisetController extends Controller
 
     public function index()
     {
-        // $data = Riset::join('user', 'user.id', '=', 'materi.user_id')
-        //     ->select('materi.*', 'user.nama_lengkap')
-        //     ->get();
+
 
         $data = TopikRiset::all();
 
@@ -47,9 +45,7 @@ class TopikRisetController extends Controller
         if ($request) {
             if ($request->hasFile('file')) {
 
-                // $getPegawaiBaru = Pegawai::orderBy('created_at', 'desc')->first();
-                // $getKonfigCuti = Konfig_cuti::where('tahun',(new \DateTime())->format('Y'))->first();
-                // $request->file('image')->move('img/materi', $request->file('gambar')->getClientOriginalName());
+
                 $fileName = $request->file('file')->getClientOriginalName();
                 $request->file('file')->move('file_upload/topik-riset', $fileName);
 
@@ -80,9 +76,7 @@ class TopikRisetController extends Controller
     }
     public function edit(Request $request)
     {
-        // $data['karyawan'] = Pegawai::where([
-        //     'id' => $request->segment(3)
-        // ])->first();
+
         $topik_riset = TopikRiset::where([
             'id' => $request->segment(3)
         ])->first();
@@ -102,9 +96,7 @@ class TopikRisetController extends Controller
         $riset->permasalahan = $request->permasalahan;
         $riset->pertanyaan_riset = $request->pertanyaan_riset;
         $riset->keterangan = $request->keterangan;
-        // $riset->judul = $request->judul;
-        // $riset->no_dokumen = $request->no_dokumen;
-        // $riset->nama = $request->nama;
+
         $riset->created_at = Carbon::now();
         $riset->updated_at = Carbon::now();
         // $karyawan->image=$request->image;
@@ -114,7 +106,7 @@ class TopikRisetController extends Controller
             $fileName = $request->file('file')->getClientOriginalName();
             $request->file('file')->move('file_upload/topik-riset', $fileName);
 
-            $riset->gambar = $fileName;
+            $riset->file = $fileName;
             $riset->save();
             return redirect('/admin/topik-riset');
         } else {
