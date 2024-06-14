@@ -165,7 +165,7 @@
         <!-- ======= Services Section ======= -->
 
         <!-- End Services Section -->
-        <section id="pricing" class="pricing pt-0">
+        <section id="contact" class="pricing pt-0">
             <div class="container" data-aos="fade-up">
                 <div class="section-header">
                     <span>Hubungi Kami</span>

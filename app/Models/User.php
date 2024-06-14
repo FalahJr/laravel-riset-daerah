@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory; // Import trait HasFactory
+// use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 
 /**
  * @property integer $id
@@ -17,8 +20,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  */
-class User extends Model
+class User extends Authenticatable
 {
+
+    use HasFactory; // Tambahkan ini
+
     /**
      * The table associated with the model.
      * 

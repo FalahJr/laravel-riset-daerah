@@ -5,20 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
-use App\models\Admin;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class LoginController extends Controller
 {
-
-    public function index_student()
+    public function index()
     {
-        return view('pages.login-student');
-    }
-
-    public function index_teacher()
-    {
-        return view('pages.login-teacher');
+        return view('pages.login');
     }
 
     public function login_action(Request $request)
@@ -33,95 +27,36 @@ class LoginController extends Controller
             return redirect('login');
         }
 
-        // $karyawan = Karyawan::where([
-        //     'email' => $request->email,
-        //     'password' => $request->password,
-        // ]);
+        $user = User::where('email', $request->email)
+            ->where('password', $request->password) // Tidak melakukan hashing pada password
+            ->first();
+        // dd($user);
 
-        // $check = $this->checkUser($request, $karyawan, 'Karyawan');
-        // if($check != null){
-        //     return $check;
-        // }
-
-        // $staf_hr = Pejabat_struktural::where([
-        //     'email' => $request->email,
-        //     'password' => $request->password,
-        // ]);
-
-        // $check = $this->checkUser($request, $staf_hr, 'pejabat-struktural');
-        // if($check != null){
-        //     return $check;
-        // }
-
-        // $pegawai = User::where([
-        //     'email' => $request->email,
-        //     'password' => $request->password,
-        // ])->with('divisi', 'jabatan')->first();
-        // if ($pegawai) {
-        //     // dd($pegawai);
-
-        //     $check = $this->checkUser($request, $pegawai, $pegawai->jabatan->nama);
-        //     // dd($check);
-
-        //     if ($check != null) {
-        //         return $check;
-        //     }
-        // }
-
-
-
-        $admin = User::where([
-            'email' => $request->email,
-            'password' => $request->password,
-        ])->first();
-
-        // dd($admin);
-        if ($admin) {
-            $check = $this->checkUser($request, $admin, $admin->role);
-            if ($check != null) {
-                return $check;
-            }
-
-            return redirect('/login')->with('failed', 'Data User Tidak Ditemukan');
+        if ($user) {
+            return $this->checkUser($request, $user, $user->role);
         } else {
-
             return redirect('/login')->with('failed', 'Data User Tidak Ditemukan');
         }
     }
 
     private function checkUser($request, $user, $role)
     {
-        // Session::flush();
+        if ($user) {
+            $userArray = $user->toArray();
+            $userArray['nama'] = $user->nama_lengkap;
+            $userArray['role'] = $user->role;
+            $userArray['id'] = $user->id;
+            session(['user' => $userArray]);
 
-        if ($user->exists()) {
-            // dd($user);
-
-            // $user = $user->first()->toArray();
-            // unset($user['password']);
-            $user['role'] = $role;
-            $user['id'] = $user['id'] ?? $user['id_admin'];
-            $user['nama'] = $user['nama_lengkap'];
-            $user['divisi'] = $user['divisi_id'] ?? null;
-            Session(['user' => $user]);
-            // dd($role);
             switch ($role) {
                 case 'Admin':
                     return redirect('admin/home');
-                    break;
-
                 case 'Masyarakat':
                     return redirect('masyarakat/home');
-                    break;
-
                 case 'Pemerintah Daerah':
                     return redirect('pemerintah-daerah/home');
-                    break;
-
-
-
                 default:
                     return redirect('/')->with('failed', 'Data User Tidak Ditemukan');
-                    break;
             }
         } else {
             return redirect('/')->with('failed', 'Data User Tidak Ditemukan');
@@ -130,9 +65,8 @@ class LoginController extends Controller
 
     public function logout_action()
     {
-        Session::flush();
-        // dd(Session('user'));
-
+        Auth::logout();
+        session()->flush();
         return redirect('/login');
     }
 }

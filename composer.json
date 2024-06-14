@@ -14,10 +14,11 @@
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "krlove/eloquent-model-generator": "^2.0",
+        "laravel/browser-kit-testing": "^7.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.0",
+        "phpunit/phpunit": "^10.3",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {

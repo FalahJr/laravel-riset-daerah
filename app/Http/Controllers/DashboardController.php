@@ -59,6 +59,6 @@ class DashboardController extends Controller
 
 
         // dd($data);
-        return view('pages.dashboard-guru', compact('newest_notifikasi', 'list_leaderboard', 'listMurid'));
+        return view('pages.dashboard', compact('newest_notifikasi', 'list_leaderboard', 'listMurid'));
     }
 }

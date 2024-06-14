@@ -107,19 +107,19 @@
                         <h4>Link Internal</h4>
                         <ul>
                             <li><a href="#">Beranda</a></li>
-                            <li><a href="#">Penelitian</a></li>
-                            <li><a href="#">Topik Riset</a></li>
-                            <li><a href="#">Hubungi Kami</a></li>
+                            <li><a href="/usulan-penelitian">Penelitian</a></li>
+                            <li><a href="/topik-riset">Topik Riset</a></li>
+                            <li><a href="/#contact">Hubungi Kami</a></li>
                         </ul>
                     </div>
 
                     <div class="col-lg-2 col-6 footer-links">
                         <h4>Layanan</h4>
                         <ul>
-                            <li><a href="#">Usulan Penelitian</a></li>
-                            <li><a href="#">Hasil Penelitian</a></li>
-                            <li><a href="#">Topik Riset</a></li>
-                            <li><a href="#">Riset</a></li>
+                            <li><a href="/usulan-penelitian">Usulan Penelitian</a></li>
+                            <li><a href="/hasil-penelitian">Hasil Penelitian</a></li>
+                            <li><a href="/topik-riset">Topik Riset</a></li>
+                            <li><a href="/riset">Riset</a></li>
                         </ul>
                     </div>
 

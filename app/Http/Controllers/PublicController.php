@@ -21,9 +21,6 @@ class PublicController extends Controller
     {
         // $role = Session('user')['role'];
         return view('welcome');
-
-        // dd($role);
-
     }
 
     public function riset(Request $request)
@@ -51,30 +48,6 @@ class PublicController extends Controller
         ]);
     }
 
-    public function searchRiset(Request $request)
-    {
-        // $request->validate([
-        //     'nama' => 'nullable|string|max:255',
-        //     'tahun_angkatan' => 'nullable|integer',
-        // ]);
-
-        $judul = $request->input('judul');
-        $tahun = $request->input('tahun');
-
-        $query = Riset::query();
-
-        if ($judul) {
-            $query->where('judul', 'like', '%' . $judul . '%');
-        }
-
-        if ($tahun) {
-            $query->where('tahun', $tahun);
-        }
-
-        $riset = $query->get();
-
-        return view('riset', compact('riset'));
-    }
 
     public function topik_riset(Request $request)
     {
