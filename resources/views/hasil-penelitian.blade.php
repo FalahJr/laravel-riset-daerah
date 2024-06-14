@@ -71,7 +71,7 @@
                                 </td>
                                 <td>
                                     @if ($list->is_publish == 'Y')
-                                        <a href="{{ asset('file_upload/riset/' . $list->upload_file) }}"
+                                        <a href="{{ asset('file_upload/penelitian/' . $list->upload_file) }}"
                                             class="btn btn-primary btn-sm" download>
                                             Download
                                         </a>
