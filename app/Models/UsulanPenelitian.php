@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -21,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class UsulanPenelitian extends Model
 {
+    use HasFactory; // Tambahkan ini
+
     /**
      * The table associated with the model.
      * 
