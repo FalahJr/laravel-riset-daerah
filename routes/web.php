@@ -8,6 +8,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PenelitianController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RisetController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentQuizController;
@@ -28,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 // Route::redirect('/', '/login');
 Route::get('/', [PublicController::class, 'index']);
 Route::get('/login', [LoginController::class, 'index']);
+Route::get('/register', [RegisterController::class, 'index']);
+Route::post('/register-action', [RegisterController::class, 'register_action']);
 
 Route::get('/riset', [PublicController::class, 'riset'])->name('riset');
 // Route::post('/search-riset', [PublicController::class, 'searchRiset']);
