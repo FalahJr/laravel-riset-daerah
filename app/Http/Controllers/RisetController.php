@@ -68,7 +68,7 @@ class RisetController extends Controller
 
                 $topik_riset = new Riset;
                 $topik_riset->judul = $request->judul;
-                // $topik_riset->user_id = $user_id;
+                $topik_riset->user_id = $user_id;
                 $topik_riset->tahun = $request->tahun;
                 $topik_riset->no_telepon = $request->no_telepon;
                 $topik_riset->abstrak = $request->abstrak;

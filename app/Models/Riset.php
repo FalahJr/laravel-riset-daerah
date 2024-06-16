@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
+ * @property integer $user_id
  * @property string $judul
  * @property string $tahun
  * @property integer $no_telepon
@@ -30,5 +31,5 @@ class Riset extends Model
     /**
      * @var array
      */
-    protected $fillable = ['judul', 'tahun', 'no_telepon', 'abstrak', 'upload_file', 'is_publish', 'created_at', 'updated_at'];
+    protected $fillable = ['judul', 'user_id', 'tahun', 'no_telepon', 'abstrak', 'upload_file', 'is_publish', 'created_at', 'updated_at'];
 }
