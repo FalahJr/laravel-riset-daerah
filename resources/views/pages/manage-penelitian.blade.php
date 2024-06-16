@@ -82,7 +82,7 @@ use Illuminate\Support\Str;
                                                         @endif
 
                                                         <form class="" method="POST"
-                                                            action="{{ Session('user')['role'] == 'Admin' ? url('/masyarakat/penelitian/' . $list->id) : url('/admin/usulan-penelitian/' . $list->id) }}"
+                                                            action="{{ Session('user')['role'] == 'Masyarakat' ? url('/masyarakat/penelitian/' . $list->id) : url('/admin/usulan-penelitian/' . $list->id) }}"
                                                             style="display:inline;">
                                                             @csrf
 

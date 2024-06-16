@@ -133,12 +133,16 @@ class PenelitianController extends Controller
     {
         $riset = UsulanPenelitian::findOrFail($id);
 
+        $role = Session('user')['role'];
 
 
         if ($riset->delete()) {
-            return redirect('/masyarakat/penelitian');
-        } else {
-            return redirect('/masyarakat/penelitian');
+
+            if ($role == "Masyarakat") {
+                return redirect('/masyarakat/penelitian');
+            } else {
+                return redirect('/admin/usulan-penelitian');
+            }
         }
     }
 }

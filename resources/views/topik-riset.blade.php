@@ -48,7 +48,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">No</th>
                             <th>Isu Permasalahan</th>
                             <th>Permasalahan</th>
                             {{-- <th>Nama</th> --}}

@@ -46,9 +46,9 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">No</th>
                             <th scope="col">Judul</th>
-                            <th scope="col">Pengusul</th>
+                            {{-- <th scope="col">Pengusul</th> --}}
                             {{-- <th scope="col">Tanggal Pengajuan</th> --}}
                             <th scope="col">Tahun</th>
                             <th scope="col">Abstrak</th>
@@ -63,7 +63,7 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $list->judul_penelitian }}</td>
-                                <td>{{ $list->user->nama_lengkap }}</td>
+                                {{-- <td>{{ $list->user->nama_lengkap }}</td> --}}
                                 <td>{{ $list->tahun }}</td>
                                 <td>
                                     {!! nl2br(htmlspecialchars_decode(Str::limit($list->abstrak, 1000))) !!}
@@ -71,7 +71,7 @@
                                 </td>
                                 <td>
                                     @if ($list->is_publish == 'Y')
-                                        <a href="{{ asset('file_upload/penelitian/' . $list->upload_file) }}"
+                                        <a href="{{ asset('file_upload/penelitian/' . $list->file) }}"
                                             class="btn btn-primary btn-sm" download>
                                             Download
                                         </a>

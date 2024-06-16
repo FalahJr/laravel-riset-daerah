@@ -30,10 +30,10 @@
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">No</th>
                             <th scope="col">Judul</th>
                             <th scope="col">Tahun</th>
-                            <th scope="col">Contact Person</th>
+                            {{-- <th scope="col">Contact Person</th> --}}
                             <th scope="col">Abstrak</th>
                             <th scope="col">Upload File</th>
                         </tr>
@@ -44,7 +44,7 @@
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>{{ $list->judul }}</td>
                                 <td>{{ $list->tahun }}</td>
-                                <td>{{ $list->no_telepon }}</td>
+                                {{-- <td>{{ $list->no_telepon }}</td> --}}
                                 {{-- <td>
                                     @if ($list->is_publish == 'Y')
                                         <span class="badge bg-success w-75">Publikasi</span>

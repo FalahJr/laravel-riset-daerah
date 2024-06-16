@@ -71,7 +71,11 @@
                         </li>
                         <li><a href="/#contact">Hubungi Kami</a></li>
                         {{-- <li><a href="register.html">Register</a></li> --}}
-                        <li><a href="/login">Login</a></li>
+                        @if (Session('user'))
+                            <li><a href="home">Dashboard</a></li>
+                        @else
+                            <li><a href="/login">Login</a></li>
+                        @endif
                         <ul>
                 </nav><!-- .navbar -->
             </div>
@@ -106,7 +110,7 @@
                     <div class="col-lg-2 col-6 footer-links">
                         <h4>Link Internal</h4>
                         <ul>
-                            <li><a href="#">Beranda</a></li>
+                            <li><a href="/">Beranda</a></li>
                             <li><a href="/usulan-penelitian">Penelitian</a></li>
                             <li><a href="/topik-riset">Topik Riset</a></li>
                             <li><a href="/#contact">Hubungi Kami</a></li>
