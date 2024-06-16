@@ -34,7 +34,7 @@
                             </h2>
                         </div>
 
-                        <form method="post" action="/login-action" class="needs-validation" novalidate="">
+                        <form method="post" action="/register-action" class="needs-validation" novalidate="">
                             @csrf
 
                             <div class="form-group">
@@ -43,6 +43,43 @@
                                     required autofocus>
                                 <div class="invalid-feedback">
                                     Please fill in your email
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="nama_lengkap">Nama Lengkap</label>
+                                <input id="nama_lengkap" type="text" class="form-control" name="nama_lengkap"
+                                    tabindex="1" required autofocus>
+                                <div class="invalid-feedback">
+                                    Please fill in your email
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="no_telepon">No. Telepon</label>
+                                <input id="no_telepon" type="number" min="0" class="form-control"
+                                    name="no_telepon" tabindex="1" required autofocus>
+                                <div class="invalid-feedback">
+                                    Please fill in your email
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label>Alamat</label>
+                                <div class="">
+                                    <textarea class="form-control" name="alamat" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label>Daftar Sebagai</label>
+                                <div class="">
+
+                                    <select class="form-control select2" name="role" required>
+                                        <option value="" disabled selected>Pilih</option>
+
+                                        <option value="Masyarakat">Masyarakat</option>
+                                        <option value="Pemerintah Daerah">Pemerintah Daerah</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -71,11 +108,11 @@
                                 </a> --}}
                                 <button type="submit" class="btn btn-primary btn-lg btn-icon icon-right w-100 "
                                     tabindex="4" name="submit">
-                                    Login
+                                    Daftar
                                 </button>
                             </div>
                             <div class="mt-5 text-center">
-                                Belum punya akun? <a href="/register">Daftar sekarang</a>
+                                Sudah punya akun? <a href="/login">Login sekarang</a>
                             </div>
                             {{-- 
                             <div class="mt-5 text-center">
