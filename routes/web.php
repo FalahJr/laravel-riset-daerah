@@ -13,6 +13,7 @@ use App\Http\Controllers\RisetController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentQuizController;
 use App\Http\Controllers\TopikRisetController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,6 +63,8 @@ Route::middleware(['authMasyarakat'])->prefix('masyarakat')->group(function () {
 
     Route::get('/home', [DashboardController::class, 'indexDashboardMurid'])->name('home');
     Route::resource('/penelitian', PenelitianController::class);
+    Route::get('profile', [UserController::class, 'index']);
+    Route::put('profile', [UserController::class, 'update']);
 });
 
 Route::middleware(['authAdmin'])->prefix('admin')->group(function () {
@@ -71,6 +74,8 @@ Route::middleware(['authAdmin'])->prefix('admin')->group(function () {
     Route::resource('/riset', RisetController::class);
     Route::resource('/topik-riset', TopikRisetController::class);
     Route::resource('/usulan-penelitian', PenelitianController::class);
+    Route::get('profile', [UserController::class, 'index']);
+    Route::put('profile', [UserController::class, 'update']);
 });
 
 Route::middleware(['authPemerintahDaerah'])->prefix('pemerintah-daerah')->group(function () {
@@ -79,6 +84,8 @@ Route::middleware(['authPemerintahDaerah'])->prefix('pemerintah-daerah')->group(
 
     Route::resource('/riset', RisetController::class);
     Route::resource('/topik-riset', TopikRisetController::class);
+    Route::get('profile', [UserController::class, 'index']);
+    Route::put('profile', [UserController::class, 'update']);
 });
 
 // Layout
