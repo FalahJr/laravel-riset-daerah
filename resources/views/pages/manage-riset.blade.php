@@ -39,7 +39,7 @@ use Illuminate\Support\Str;
 
                                     <table class="table-striped table-md table">
                                         <tr>
-                                            <th>#</th>
+                                            <th>No</th>
                                             <th>Judul</th>
                                             {{-- <th>Tahun</th> --}}
                                             <th>No.Telepon</th>

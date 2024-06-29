@@ -41,7 +41,7 @@ use Illuminate\Support\Str;
 
                                     <table class="table-striped table-md table">
                                         <tr>
-                                            <th>#</th>
+                                            <th>No</th>
                                             <th scope="col">Judul</th>
                                             <th scope="col">Pengusul</th>
                                             <th scope="col">Tahun</th>
