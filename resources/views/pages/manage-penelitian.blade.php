@@ -44,6 +44,8 @@ use Illuminate\Support\Str;
                                             <th>#</th>
                                             <th scope="col">Judul</th>
                                             <th scope="col">Pengusul</th>
+                                            <th scope="col">Tahun</th>
+                                            <th scope="col">No. Telepon</th>
                                             <th scope="col">Tanggal Pengajuan</th>
                                             <th scope="col">Status</th>
                                             <th>Action</th>
@@ -56,6 +58,8 @@ use Illuminate\Support\Str;
 
                                                 <td>{{ $list->judul_penelitian }}</td>
                                                 <td>{{ $list->user->nama_lengkap }}</td>
+                                                <td>{{ $list->tahun }}</td>
+                                                <td>{{ $list->no_telepon }}</td>
                                                 <td>{{ $list->created_at }}</td>
 
                                                 {{-- <td>
