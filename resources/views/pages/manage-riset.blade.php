@@ -41,7 +41,7 @@ use Illuminate\Support\Str;
                                         <tr>
                                             <th>#</th>
                                             <th>Judul</th>
-                                            <th>Tahun</th>
+                                            {{-- <th>Tahun</th> --}}
                                             <th>No.Telepon</th>
                                             <th>Dokumen</th>
                                             <th>Status</th>
@@ -54,7 +54,7 @@ use Illuminate\Support\Str;
                                                 <td>{{ $no }}</td>
 
                                                 <td>{{ $list->judul }}</td>
-                                                <td>{{ $list->tahun }}</td>
+                                                {{-- <td>{{ $list->tahun }}</td> --}}
                                                 <td>{{ $list->no_telepon }}</td>
 
                                                 {{-- <td>
